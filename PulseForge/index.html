@@ -1,0 +1,649 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b0b13"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="PulseForge"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="./icon-192.png"><title>PulseForge V22.3 · Mobile Diagnostics</title><style>
+:root{color-scheme:dark;--bg:#0b0b13;--panel:#151521;--surface:#1e1d2e;--stroke:#373349;--ink:#f5f0ff;--muted:#aaa4c0;--accent:#b58aff;--teal:#7ce4dd}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% -20%,#302044,transparent 55%),var(--bg);font:14px system-ui,sans-serif;color:var(--ink)}button,input,select,textarea{font:inherit}button{cursor:pointer;border:1px solid #49415e;border-radius:9px;padding:9px 12px;background:#28243a;color:var(--ink)}button:hover{border-color:var(--accent)}button.active,.primary{background:var(--accent);color:#1a1025;border-color:var(--accent);font-weight:800}input,select,textarea{background:#201d2e;color:var(--ink);border:1px solid #48405d;border-radius:8px;padding:8px}input[type=range]{accent-color:var(--accent);padding:0}header{padding:16px 23px;display:flex;justify-content:space-between;gap:12px;align-items:center;border-bottom:1px solid var(--stroke);flex-wrap:wrap}.logo{font-size:22px;font-weight:900}.logo em{font-style:normal;color:var(--accent)}.small{font-size:12px;color:var(--muted)}.shell{display:grid;grid-template-columns:252px minmax(0,1fr);min-height:calc(100vh - 65px)}aside{background:#11111b;border-right:1px solid var(--stroke);padding:18px;overflow:auto;position:sticky;top:0;height:100vh;align-self:start}h3{font-size:11px;letter-spacing:1.2px;color:#c6b4e9;text-transform:uppercase;margin:22px 0 10px}.tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px}.tile{min-height:80px;padding:6px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:2px}.tile b{font-size:12px}.tile span{font-size:23px}.tile small{font-size:10px;color:var(--muted)}.main{padding:20px;min-width:0;max-width:1600px}.row{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.tabs{margin-bottom:16px}.panel{background:var(--panel);border:1px solid var(--stroke);border-radius:14px;padding:16px;margin-bottom:14px}.control{display:flex;flex-direction:column;gap:5px;font-size:11px;color:var(--muted)}.control input[type=number]{width:82px}.control select{max-width:180px}.stat{padding:8px 12px;background:#242034;border-radius:8px;color:var(--muted);font-size:12px}.stat strong{color:var(--ink)}.board{overflow:auto;background:#0e0d17;border:1px solid #4e3b69;border-radius:13px;padding:12px;margin-top:12px}.measure{border:1px solid #39304d;border-radius:11px;padding:10px;margin-bottom:11px;background:#161321}.measure.warn{border-color:#e3a16e}.measurehead{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:12px;margin-bottom:5px}.notation{width:100%;min-width:560px;display:block;touch-action:pan-x}.notation .noteHit{cursor:grab;pointer-events:all}.notation .noteArt{pointer-events:none}.noteHit:hover{fill:#b58aff22}.noteHit.selected{fill:#b58aff33}.noteHit.dropJoin{fill:#7ce4dd44;stroke:#7ce4dd;stroke-width:2}.notation.dropBlank{outline:2px dashed #b58aff;outline-offset:-4px}.playhead{stroke:var(--teal);stroke-width:3;pointer-events:none;filter:drop-shadow(0 0 4px #7ce4dd)}.measure.playingBar{border-color:#7ce4dd}.transportInfo{font-size:12px;color:var(--teal);font-weight:700}.baractions{display:flex;gap:7px;flex-wrap:wrap;margin-top:7px}.baractions button{padding:5px 9px;font-size:11px}.muted{color:var(--muted)}.hide{display:none!important}textarea{width:100%;min-height:110px;resize:vertical}.importbox{display:grid;grid-template-columns:1fr 1fr;gap:15px}.hint{line-height:1.5;color:var(--muted);font-size:12px}.notice{padding:10px 12px;border:1px solid #53466e;background:#241e34;border-radius:9px;margin:10px 0;font-size:12px;line-height:1.5}.meter{height:7px;background:#343047;border-radius:10px;overflow:hidden}.meter>div{height:100%;background:var(--teal)}.lesson{padding:11px;border:1px solid var(--stroke);border-radius:9px;margin:7px 0;display:flex;justify-content:space-between;gap:10px;align-items:center}.kbd{border:1px solid #6b607b;border-radius:4px;padding:2px 5px;font-size:11px}.tip{margin-top:12px;line-height:1.5}.file{max-width:100%}@media(max-width:900px){.shell{grid-template-columns:1fr}aside{border-right:0;border-bottom:1px solid var(--stroke)}.tiles{grid-template-columns:repeat(4,1fr)}.importbox{grid-template-columns:1fr}}@media(max-width:520px){.tiles{grid-template-columns:repeat(3,1fr)}.main{padding:10px}.panel{padding:11px}}
+.importmode{padding:15px 0;display:flex;flex-wrap:wrap;align-items:center;gap:12px}.importmode.hide{display:none}.importmode h3,.importmode p{flex-basis:100%;margin:5px 0}.importmode textarea{flex-basis:100%}.reviewBars{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:9px;margin:14px 0}.reviewBar{padding:12px;border:1px solid var(--stroke);border-radius:10px;background:var(--surface)}.reviewBar.warn{border-color:#e9a15b}.reviewBar small{display:block;color:var(--muted);margin-bottom:7px}.reviewBar code{white-space:normal;line-height:1.9}.reviewBar button{font-size:11px;margin-top:7px}#importModes{margin-top:15px}#quickTokens button{padding:7px 10px}.countVisual{display:none;margin-top:12px;padding:12px;border:1px solid #5b4c7b;border-radius:10px;background:#221c32}.countVisual.active{display:block}.countDots{display:flex;gap:8px;margin-top:10px}.countDots span{flex:1;text-align:center;border-radius:8px;padding:9px 2px;background:#373047;color:#aaa4c0;font-weight:800}.countDots span.current{background:#b58aff;color:#1a1025}.countDots span.done{background:#3b655f;color:#d7fff8}
+.subTrainer{margin:12px 0 16px;padding:14px;border:1px solid #594a77;border-radius:12px;background:#211c31}
+.subGrid{display:grid;grid-template-columns:repeat(var(--subcols,4),minmax(0,1fr));gap:8px;margin-top:12px}
+.subBeat{min-width:0;padding:9px 7px;border-radius:9px;background:#302940;border:1px solid #51435f}
+.subBeat.active{border-color:#b58aff;background:#3d3057}
+.subBeatTitle{font-size:12px;font-weight:800;color:#d9c6ff;margin-bottom:7px}
+.subSlots{display:grid;grid-template-columns:repeat(var(--slots,4),minmax(0,1fr));gap:3px}
+.subSlot{border-radius:5px;text-align:center;padding:8px 1px;background:#443b56;color:#c8bfd7;font-size:12px;font-weight:800;transition:background .08s}
+.subSlot.active{background:#b58aff;color:#1a1025;box-shadow:0 0 0 2px #d8c1ff}
+.subSlot.passed{background:#46645e;color:#e0fff4}
+.subStatus{font-size:13px;color:#d8c8ef;margin-top:11px;min-height:19px}
+@media(max-width:700px){.subGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.subSlot{font-size:11px;padding:7px 0}}
+.notation .pmMark{pointer-events:none}#pmToggle:disabled{opacity:.5}#pmToggle.isOn{background:#2d4b47;border-color:#7ce4dd;color:#a8fff1}#pickDirection{max-width:165px}#accentToggle{white-space:nowrap}.notation text{user-select:none}#appSettings summary{list-style:revert}#appSettings[open]{border-color:#76639b}.notation .noteHit.selected{fill:rgba(152,110,255,.27)!important;stroke:#b9a1ff;stroke-width:1.5}#pmSelectionOn,#pmSelectionOff{border-color:#557e75}#settingsControls .control{margin:4px 0}.headerMenu{position:relative}.headerMenu>summary{cursor:pointer;list-style:none;border:1px solid #49415e;background:#28243a;border-radius:9px;padding:9px 12px}.headerMenu>summary::-webkit-details-marker{display:none}.headerMenu[open]>summary{border-color:var(--accent)}.menuContent{position:absolute;z-index:40;right:0;top:calc(100% + 7px);background:#151521;border:1px solid #625377;box-shadow:0 12px 40px #0009;border-radius:12px;padding:14px;min-width:250px;max-width:min(92vw,650px);display:flex;flex-direction:column;gap:12px}.menuContent .row{gap:12px}.menuContent input[type=file]{max-width:230px}.menuContent #settingsControls{display:grid;grid-template-columns:repeat(2,minmax(130px,1fr))}.menuContent #settingsSound .row{display:flex;gap:12px;flex-wrap:wrap}@media(max-width:600px){.menuContent{position:fixed;top:74px;left:12px;right:12px;max-width:none;max-height:75vh;overflow:auto}header{gap:8px}}
+.inspectorSummary{cursor:pointer;font-weight:750;list-style:none}.inspectorSummary::-webkit-details-marker{display:none}.inspectorSummary::before{content:'▸';display:inline-block;margin-right:8px;color:var(--accent)}#noteInspector[open]>.inspectorSummary::before{content:'▾'}.inspectorInner{padding-top:14px}
+body{background:radial-gradient(ellipse at 80% -20%,var(--glow,#302044),transparent 55%),var(--bg)}
+body,aside,.panel,.board,.stat,button,input,select,textarea,.menuContent{transition:background-color .2s,border-color .2s,color .2s}
+body[data-theme] aside{background:var(--sidebar)}body[data-theme] .panel,body[data-theme] .menuContent{background:var(--panel)}body[data-theme] .board{background:var(--board)}body[data-theme] .stat{background:var(--surface)}body[data-theme] button:not(.primary):not(.active){background:var(--surface);color:var(--ink)}body[data-theme] input,body[data-theme] select,body[data-theme] textarea{background:var(--surface);color:var(--ink)}body[data-theme] .headerMenu>summary{background:var(--surface)}body[data-theme] .small,body[data-theme] .control{color:var(--muted)}
+body[data-theme="ocean"]{--bg:#061522;--panel:#102335;--surface:#1b3548;--sidebar:#091b2b;--board:#081827;--stroke:#31516a;--ink:#e9f8ff;--muted:#a9c6d7;--accent:#59d3ed;--glow:#0c5670}
+body[data-theme="forest"]{--bg:#0b1713;--panel:#142720;--surface:#203c31;--sidebar:#0e211a;--board:#0c1c16;--stroke:#355746;--ink:#effff5;--muted:#afcdbb;--accent:#8be0aa;--glow:#245b3e}
+body[data-theme="ember"]{--bg:#1c1111;--panel:#2c1c1c;--surface:#442a2a;--sidebar:#251616;--board:#1c1212;--stroke:#664444;--ink:#fff4ee;--muted:#e1bdb3;--accent:#ffad76;--glow:#743421}
+body[data-theme="slate"]{--bg:#101419;--panel:#1d252e;--surface:#2b3642;--sidebar:#151c24;--board:#111820;--stroke:#435260;--ink:#f0f5fb;--muted:#bdc8d3;--accent:#9dbce6;--glow:#34465c}
+body[data-theme="light"]{color-scheme:light;--bg:#f4f5fa;--panel:#fff;--surface:#e9eaf3;--sidebar:#e9eaf2;--board:#f8f8fd;--stroke:#c8c8d9;--ink:#242338;--muted:#54536a;--accent:#7952c5;--glow:#d5c5f6}
+body[data-theme="light"] .logo,body[data-theme="light"] h3{color:var(--ink)}body[data-theme="light"] .hint{color:#353249}body[data-theme="light"] .notation text{fill:#242338}body[data-theme="light"] .board svg{color:#242338}
+@media(max-width:780px){.shell{grid-template-columns:1fr}aside{position:static;height:auto;border-right:0;border-bottom:1px solid var(--stroke)}.main{padding:12px}header{padding:12px}.tiles{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:480px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.logo{font-size:19px}}
+@media(max-width:900px){aside{position:static;height:auto;overflow:visible;padding:12px}.shell{min-height:0}.tiles{grid-template-columns:repeat(4,minmax(0,1fr))}header{padding:12px}.main{padding:12px}.tabs{position:sticky;top:0;z-index:15;background:var(--bg);padding:8px 0}.tabs button{flex:1;min-width:90px}.notation{touch-action:pan-x pan-y}.board{overscroll-behavior-x:contain}.panel{min-width:0}.mobileTools{display:block}}@media(max-width:560px){header>.row{width:100%;justify-content:flex-start}.headerMenu>summary,button{min-height:42px}.tile{min-height:65px}.tiles{grid-template-columns:repeat(3,minmax(0,1fr))}.board{padding:6px}.measure{padding:7px}.main{padding:8px}.tabs button{font-size:12px;padding:10px 5px}.mobileTools .row button{flex:1}.control{max-width:100%}}@media(min-width:901px){.mobileTools{display:none}}.mobileTools .row{margin-top:10px}.mobileTools .small{display:block;margin-top:5px}.notation .noteHit{touch-action:manipulation}.measure{min-width:0}button:focus-visible,.tile:focus-visible,.headerMenu>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+</style></head><body><div id="startupDiagnostic" role="alert" style="display:block;background:#242039;color:#f8eaff;padding:10px 16px;font:14px system-ui;border-bottom:1px solid #7564a0">PulseForge is starting… If this message remains, JavaScript may be blocked by the viewer. Open the hosted HTTPS version in Safari or Chrome.</div><header><div><div class="logo">PULSE<em>FORGE</em> <span class="small">V22.3 · Mobile Diagnostics</span></div><div class="small">Guitar Rhythm Trainer · Write rhythms · Learn subdivisions · Practice guitar <span title="Public preview: import and sharing are still being tested">· BETA PREVIEW</span></div></div><div class="row"><span id="saveState" class="small" role="status">Autosave active</span><button id="supportCreator" type="button" title="Support the independent creator">♡ Support</button><button id="shareRhythm" type="button">🔗 Share rhythm</button><details id="fileMenu" class="headerMenu"><summary>📁 Import / Export</summary><div class="menuContent"><button id="saveJson">Export project</button><button id="restoreBackup" type="button">Restore backup</button><label class="small">Import project <input type="file" id="loadJson" accept=".json,application/json" class="file"></label></div></details><details id="settingsMenu" class="headerMenu"><summary>⚙ Settings</summary><div class="menuContent" id="settingsHome"><label class="control" style="margin-bottom:10px">Background theme<select id="themeSelect" aria-label="Background theme"><option value="midnight">Midnight Violet</option><option value="ocean">Deep Ocean</option><option value="forest">Forest</option><option value="ember">Ember</option><option value="slate">Slate</option><option value="light">Daylight</option></select></label><div class="small">Choose your color theme. Your preference is saved in this browser.</div><hr style="width:100%;border:0;border-top:1px solid var(--stroke)"><div class="small">Metronome, sound, playback and practice options</div></div></details></div></header><div class="shell"><aside><h3>Editing tips</h3><div class="hint">Drag notes or ready-made groups from the palette. A highlighted note is a JOIN target; the empty measure is a NEW GROUP target. Clicking a measure does not add notes. Drop directly on a note to place the new note immediately AFTER it and connect their beams. Drop in empty measure space to start a NEW beam group. Purple cursor shows the insertion position. Double-click a note to toggle its accent. Use <span class="kbd">Delete</span> to remove a selected note, <span class="kbd">Ctrl Z</span> to undo, and <span class="kbd">Ctrl Y</span> to redo.</div><h3>Note palette · drag onto measure</h3><div class="tiles" id="palette"></div><h3>Ready-made groups</h3><div class="tiles" id="groups"></div><h3>Rhythm notation</h3><div class="hint">Notes are placed on a single rhythm line. Eighths beam together, sixteenths use two beams, and mixed subdivisions get partial beams. Each bar is checked against its time signature.</div></aside><div class="main"><div class="mobileTools panel"><strong>Touch editor</strong><span class="small">Tap a note type, then tap a measure to add it. Select notes to edit palm mutes.</span><div class="row"><button id="touchAdd" class="active" type="button">✚ Add notes</button><button id="touchSelect" type="button">☑ Multi-select</button><button id="touchMove" type="button">↔ Move note</button><button id="touchClear" type="button">Clear selection</button></div><div class="small" id="touchHint">Add mode: tap a note type, then tap an empty part of a measure. Tap an existing note to insert after it.</div></div><div class="row tabs"><button class="active" data-tab="studio">Rhythm Studio</button><button data-tab="song">Song Rhythm Lab</button><button data-tab="learn">Practice & Progress</button></div><details id="appSettings" class="panel" open style="margin:0"><summary style="display:none">Settings</summary><div class="small" style="margin:10px 0">These controls affect playback and practice. Your rhythm stays on the editor below.</div><div id="settingsControls" class="row" style="gap:12px;align-items:center;flex-wrap:wrap"></div><div id="settingsSound" style="margin-top:12px"></div></details><section id="studio"><div class="panel"><div class="row"><button id="play" class="primary">▶ Play</button><button id="stop">■ Stop</button><label class="control">BPM <input type="number" id="bpm" min="20" max="400" step="1" value="85" inputmode="numeric" style="width:88px" title="Type any whole-number tempo from 20 to 400 BPM"></label><button id="tap">Tap tempo</button><label class="control">Time signature<input id="signature" type="text" value="4/4" inputmode="text" spellcheck="false" maxlength="6" placeholder="e.g. 7/8" style="width:82px" title="Type a meter such as 5/8, 7/8, 11/16, or 13/4"></label><label class="control">Count-in<select id="countin"><option value="0">Off</option><option value="1" selected>1 bar</option><option value="2">2 bars</option></select></label><label class="control">Metronome<select id="clickmode"><option value="quarter">Quarter</option><option value="eighth">Eighth</option><option value="sixteenth">Sixteenth</option><option value="triplet">Triplets</option><option value="none">Off</option></select></label><label class="control">Click volume<input id="volume" type="range" min="0" max="100" value="55"></label></div><div class="row" style="margin-top:14px;padding:12px;border:1px solid var(--stroke);border-radius:10px;background:#1b192a"><strong style="font-size:12px;color:#d6c6f7">Rhythm note sound</strong><label class="control">Tone<select id="noteWave"><option value="triangle">Soft pluck</option><option value="sine">Clean beep</option><option value="square">Sharp pulse</option><option value="sawtooth">Bright buzz</option></select></label><label class="control">Pitch <input id="notePitch" type="range" min="110" max="880" step="10" value="280"><span id="notePitchText">280 Hz</span></label><label class="control">Beat volume<input id="noteVolume" type="range" min="0" max="100" value="65"></label><label class="control">Length<select id="noteLength"><option value="0.045">Short</option><option value="0.09" selected>Medium</option><option value="0.16">Long</option></select></label><button id="previewNote" type="button">▶ Preview sound</button></div><div id="countVisual" class="countVisual" aria-live="polite"><div class="row" style="justify-content:space-between"><strong id="countTitle">Count-in</strong><span id="countProgress">Ready</span></div><div id="countDots" class="countDots"></div></div><div class="row" style="margin-top:12px"><label><input id="loop" type="checkbox" checked> Loop</label><label><input id="speed" type="checkbox"> Speed trainer</label><label class="control">Increase BPM by<input id="step" type="number" min="1" max="20" value="5"></label><label class="control">Every N loops<input id="every" type="number" min="1" max="20" value="4"></label><label><input id="silent" type="checkbox"> Silent every 4th bar</label><span class="stat">Beat <strong id="beatLabel">—</strong></span><span class="stat">Transport <strong id="transportLabel">Stopped</strong></span><span class="stat">Loops <strong id="loops">0</strong></span></div></div><details class="panel" id="noteInspector" style="border-color:#655184"><summary class="inspectorSummary">🎸 Note Inspector <span class="small">— click to expand picking, palm muting &amp; note details</span></summary><div class="inspectorInner">
+<div class="row" style="justify-content:space-between;align-items:center">
+<div><b>🎸 Note Inspector</b><div class="small">Click a note in any measure to inspect its timing and articulation.</div></div>
+<button id="pmToggle" type="button" disabled>PM · Palm mute: Off</button><label class="control">Pick direction <select id="pickDirection" disabled><option value="">Unmarked</option><option value="down">↓ Downstroke</option><option value="up">↑ Upstroke</option></select></label><button id="accentToggle" type="button" disabled>Accent: Off</button>
+</div>
+<div class="small" style="margin-top:8px">Shift-click to select a range in one measure; Ctrl/Cmd-click to add or remove individual notes. <strong id="multiCount">0 notes selected</strong></div><div class="row" style="margin-top:8px;gap:8px"><button id="pmSelectionOn" type="button">PM selected notes</button><button id="pmSelectionOff" type="button">Unmute selected notes</button><button id="clearMulti" type="button">Clear selection</button></div><div class="row" style="margin-top:12px;gap:12px">
+<span class="stat">Selected <strong id="inspectSelected">No note selected</strong></span>
+<span class="stat">Count <strong id="inspectCount">—</strong></span>
+<span class="stat">Starts <strong id="inspectStart">—</strong></span>
+<span class="stat">Duration <strong id="inspectDuration">—</strong></span>
+</div>
+<div class="row" style="margin-top:12px;gap:8px;flex-wrap:wrap"><button id="autoAlternate">↓↑ Alternate pick measure</button><button id="autoDown">↓↓ All downstrokes</button><button id="clearPicking">Clear picking</button><button id="muteGroup">PM selected beam group</button><button id="unmuteGroup">Unmute selected beam group</button></div><div class="small" style="margin-top:7px">Measure actions use the selected measure. Select a note first to mute or unmute its connected beam group. All edits support Undo.</div><div class="small" id="inspectHelp" style="margin-top:10px">Select a note to see its position in the beat. Palm mutes are marked PM above the note and have a shorter, softer playback sound.</div>
+</div></details><div class="panel"><div class="row" style="justify-content:space-between"><div><b>Notation board</b><div class="small">Drag notes from the palette onto the measure. Drop ON an existing note to connect after it. Drop on EMPTY space to create a separate beam group. Click notes only to select them.</div></div><div class="row"><button id="undo">↶ Undo</button><button id="redo">↷ Redo</button><button id="insertMode">Mode: Append</button><button id="cursorEnd">Cursor → End</button></div></div><div class="row" style="margin:24px 0 16px;padding-top:20px;border-top:1px solid var(--stroke);gap:8px;flex-wrap:wrap"><strong>Group last notes:</strong><button id="beam3">Beam 3 eighths</button><button id="beam4">Beam 4 eighths</button><button id="triplet3">3:2 triplet</button><button id="quad43">4:3 tuplet</button><button id="quad42">4:2 tuplet</button><button id="ungroup">Ungroup last 4</button><button id="breakBefore">Split beam before selected</button><button id="joinPrevious">Join selected to previous</button></div><div class="subTrainer" id="subTrainer"><div class="row" style="justify-content:space-between;gap:10px"><div><strong style="color:#e1d2ff">Rhythm subdivision trainer</strong><div class="small">Follow the highlighted position as the playhead moves. Sixteenths count 1 e & a.</div></div><label class="control">Breakdown <select id="subMode"><option value="sixteenth" selected>Sixteenths (1 e & a)</option><option value="eighth">Eighths (1 &)</option><option value="quarter">Quarter beats</option><option value="triplet">Eighth triplets (1 trip let)</option></select></label></div><div class="subGrid" id="subGrid" aria-label="Beat subdivision display"></div><div class="subStatus" id="subStatus" aria-live="off">Press Play to follow the rhythm. Each group represents one quarter-note beat.</div></div><div id="board" class="board"></div><div class="notice"><b>Project safety:</b> Your work autosaves in this browser. Export a JSON backup before clearing browser data or switching devices. Importing a project checks its structure before replacing your measures. <span id="backupState">A recovery copy will be kept when you make changes.</span></div><div class="notice" id="status">Ready. Drag a note or group onto a measure to add it. Clicking empty space never adds a note.</div></div><div class="panel"><div class="row"><button id="copy">Copy selected measure</button><button id="paste">Paste measure</button><button id="duplicate">Duplicate last measure</button><button id="savePattern">Save to library</button><select id="savedPatterns"><option value="">Saved patterns</option></select><button id="loadPattern">Load</button></div></div></section><section id="song" class="hide"><div class="panel"><h2>Song Rhythm Lab <span class="small">· short sections, zero subscriptions</span></h2><p class="hint">Choose an import route. Every route ends at a review step before anything replaces your rhythm board. The app runs locally; no files are uploaded.</p><div class="row" id="importModes"><button class="active" data-mode="midi">MIDI</button><button data-mode="xml">MusicXML</button><button data-mode="image">Screenshot reference (manual)</button><button data-mode="manual">Manual</button></div><div id="mode-midi" class="importmode"><h3>Import MIDI (.mid / .midi)</h3><input type="file" id="midiFile" accept=".mid,.midi,audio/midi" class="file"><p class="hint">Extracts note onsets from MIDI tracks and ignores pitch. Simultaneous chord notes count as one attack. Quantization works best for straight or triplet rhythms.</p><label class="control">Track <select id="midiTrack"></select></label><label class="control">Quantization <select id="midiGrid"><option value="auto">Auto (straight / triplets)</option><option value="8">32nd notes</option><option value="6">16th triplets</option><option value="4">16th notes</option><option value="3">8th triplets</option><option value="2">8th notes</option></select></label><label class="control"><span><input id="midiUseMeter" type="checkbox" checked> Use detected MIDI time signature</span></label><div class="hint" id="midiDetected">Detected meter: —</div><button id="midiPreview" class="primary">Preview MIDI rhythm</button></div><div id="mode-xml" class="importmode hide"><h3>Import MusicXML (.xml / .musicxml)</h3><input type="file" id="xmlFile" accept=".musicxml,.xml" class="file"><label class="control">Part <select id="part"><option value="">Choose a score first</option></select></label><button id="extract" class="primary">Preview MusicXML rhythm</button><p class="hint">Complex voices, ties, and tuplets need manual verification. Compressed .mxl is not supported.</p></div><div id="mode-image" class="importmode hide"><h3>Screenshot reference + guided transcription</h3><input type="file" id="rhythmImage" accept="image/*" class="file"><img id="imagePreview" alt="Your rhythm reference" style="display:none;max-width:100%;max-height:300px;object-fit:contain;border:1px solid var(--stroke);border-radius:10px;margin-top:12px"><p class="hint">This offline version displays your screenshot alongside the note editor; it does <b>not</b> pretend to recognize notation automatically. Click the note groups on the left, or enter tokens in Manual mode, to transcribe a short passage.</p><button id="imageToManual">Open manual transcription</button></div><div id="mode-manual" class="importmode hide"><h3>Quick rhythm transcription</h3><p class="hint">q quarter · e eighth · s sixteenth · t triplet eighth · de dotted eighth · r quarter rest · re eighth rest · rs sixteenth rest. Use | between bars. Example: <code>e s s q e e | q r e e</code></p><textarea id="manual" placeholder="e s s q e e | q r e e"></textarea><div class="row" id="quickTokens"></div><button id="manualImport" class="primary">Preview manual rhythm</button></div><div class="notice"><b>Import checklist:</b> Download or export a <b>.mid / .midi</b> or <b>.musicxml / .xml</b> file from a tab editor. Select the guitar track or part, preview the rhythm, and check the measure totals before applying. <b>Songsterr links and Guitar Pro files are not directly importable yet.</b> MIDI import uses note-on/note-off timing and simplifies chords to a single rhythm line. Imported files stay in your browser.</div><div class="notice" id="importStatus">Choose an import method above.</div></div><div class="panel"><h3>Songsterr reference (optional)</h3><div class="row"><input id="songUrl" placeholder="https://www.songsterr.com/a/wsa/..." style="flex:1;min-width:220px"><button id="openSong">Open Songsterr</button></div><p class="hint">Links open the original tab for reference. Direct extraction from Songsterr is not available; no Plus subscription is required for the other import methods.</p></div><div class="panel"><h3>Import review · select a short passage</h3><div class="row"><label class="control">Start measure <input type="number" id="rangeStart" min="1" value="1" style="width:76px"></label><label class="control">Number of measures <input type="number" id="rangeCount" min="1" max="32" value="4" style="width:76px"></label><button id="refreshPreview">Refresh preview</button><button id="acceptImport" class="primary" disabled>Use reviewed section in Studio</button></div><div class="hint" id="importDiagnostics" role="status"></div><div class="hint" id="reviewInfo">No rhythm loaded yet.</div><div id="reviewBars" class="reviewBars"></div><p class="hint">Review every measure against your source. Edit the tokens below if the import misses rests, syncopation, ties, or complex voices. Changing tokens updates the preview.</p><textarea id="reviewTokens" placeholder="Imported rhythm tokens appear here" style="min-height:92px"></textarea><button id="applyReview">Apply corrected tokens</button></div></section><section id="learn" class="hide"><div class="panel"><h2>Practice & Progress</h2><div class="row"><span class="stat">Practice time <strong id="practiceTime">0 min</strong></span><span class="stat">Sessions <strong id="sessions">0</strong></span><span class="stat">Highest BPM practiced <strong id="best">—</strong></span></div><h3>🎸 Palm-Mute Practice Path</h3>
+<p class="hint">Work through quarter notes, eighth notes, and sixteenth notes. PM means gently rest the picking-hand palm near the bridge; OPEN means lift it to let the note ring. Each drill is a full 4/4 measure. Use the count-in and loop controls in Studio to repeat it.</p>
+<div class="row" style="margin:10px 0"><label class="control">Starting BPM <input id="pmPracticeBpm" type="number" min="30" max="220" value="70" style="width:78px"></label><span class="small">Start slowly and aim for clean, even transitions.</span></div>
+<div id="pmDrills"></div>
+<p class="hint" id="pmDrillStatus">Choose a drill to load its rhythm into the Studio. Your current measures will be replaced (Undo can restore them).</p>
+<h3>Guided rhythm exercises</h3><div id="lessons"></div><p class="hint">These exercises provide listening and timing practice. They do not grade your actual guitar performance; microphone or audio-interface onset detection would be a separate feature.</p></div></section></div></div><script>
+window.addEventListener('error',event=>{const el=document.getElementById('startupDiagnostic');if(el){el.style.display='block';el.textContent='PulseForge startup error: '+(event.message||'Unknown error')+' — Try Safari or Chrome. If this persists, report this message.'}});
+window.addEventListener('unhandledrejection',event=>{const el=document.getElementById('startupDiagnostic');if(el){el.style.display='block';el.textContent='PulseForge error: '+(event.reason?.message||String(event.reason))}});
+try{
+(()=>{'use strict';
+const $=id=>document.getElementById(id);const names={q:'Quarter',e:'Eighth',s:'Sixteenth',h:'Half',w:'Whole',de:'Dotted eighth',dq:'Dotted quarter',t:'Triplet eighth',r:'Quarter rest',re:'Eighth rest',rs:'16th rest'};
+const dur={q:1,e:.5,s:.25,h:2,w:4,de:.75,dq:1.5,t:1/3,r:1,re:.5,rs:.25};const symbols={q:'♩',e:'♫',s:'♬',h:'𝅗𝅥',w:'𝅝',de:'♩.',dq:'♩.',t:'♫₃',r:'𝄽',re:'𝄾',rs:'𝄿'};
+const groups={'Eighth + 2 sixteenths':['e','s','s'],'2 sixteenths + eighth':['s','s','e'],'4 sixteenths':['s','s','s','s'],'Dotted 8th + 16th':['de','s'],'Triplet':['t','t','t'],'Triplet + rest':['t','t','re'],'Gallop':['s','s','e'],'Reverse gallop':['e','s','s']};
+const presets=[['Quarter pulse','q q q q'],['Eighth pulse','e e e e e e e e'],['Sixteenth chugs','s s s s s s s s s s s s s s s s'],['Metal gallops','e s s e s s e s s e s s'],['Syncopation','e re e e q e e'],['Triplets','t t t t t t t t t t t t'],['Dotted groove','de s de s de s de s']];
+const parseTokens=str=>str.trim().split(/\s+/).filter(Boolean).map(t=>({type:dur[t]!==undefined?t:'q',accent:false}));
+let bars=[parseTokens('e s s q e e q'),parseTokens('s s s s e e q q')],selected='e',selectedNote=null,multiNotes=new Set(),selectionAnchor=null,selectedBar=0,undo=[],redo=[],clipboard=null,playing=false,audio=null,scheduler=null,raf=null,events=[],startAt=0,stopAt=0,loops=0,tapTimes=[],score=null,scoreParts=[],practiceSeconds=0,startedSession=false;
+let touchMode='add',touchMoveSource=null;let insertionMode="append",cursorIndex=0,groupCounter=1,scheduledBar=0,countBarsRemaining=0,playStopTimer=null,schedulingFinished=false;const noteDur=n=>n.tuplet?dur[n.type]*n.tuplet.factor:dur[n.type];const clone=x=>JSON.parse(JSON.stringify(x));const sig=()=>{const [a,b]=$('signature').value.split('/').map(Number);return a*4/b};function validSignature(value){const match=/^([1-9][0-9]?)\/(1|2|4|8|16|32)$/.exec(String(value).trim());if(!match)return false;const numerator=Number(match[1]),denominator=Number(match[2]);return numerator<=32&&numerator*4/denominator<=32}
+const barTotal=b=>b.reduce((a,n)=>a+noteDur(n),0);const save=()=>{try{localStorage.setItem('pulseforge-v5',JSON.stringify({bars,bpm:$('bpm').value,signature:$('signature').value,history:historyData}));const state=$('saveState');if(state)state.textContent='✓ Saved in this browser';}catch(err){const state=$('saveState');if(state)state.textContent='⚠ Autosave failed — export a project';}};let historyData={seconds:0,sessions:0,best:0};
+try{const d=JSON.parse(localStorage.getItem('pulseforge-v5')||'null');if(d){bars=d.bars||bars;$('bpm').value=d.bpm||85;$('signature').value=validSignature(d.signature)?d.signature:'4/4';historyData=d.history||historyData}}catch{}
+function checkpoint(){undo.push(clone(bars));if(undo.length>80)undo.shift();redo=[];try{localStorage.setItem('pulseforge-recovery-v20',JSON.stringify({version:20,bars:clone(bars),bpm:Number($('bpm').value),signature:$('signature').value,savedAt:new Date().toISOString()}));}catch{}}function commit(){multiNotes=new Set([...multiNotes].filter(k=>{const [b,i]=k.split(':').map(Number);return !!bars[b]?.[i]}));save();render()}function message(t){$('status').textContent=t}function insert(bar,index,types){
+if(insertionMode==="append")index=bars[bar].length;
+const anchor=selectedNote?.b===bar?bars[bar][selectedNote.i]:null;
+const beamable=t=>["e","s","de","t"].includes(t);
+// Only an explicitly selected note is an invitation to continue its beam group.
+// A cursor at the end (no selection) always starts a separate group.
+const canJoin=anchor&&beamable(anchor.type)&&types.every(beamable)&&!anchor.tuplet;
+checkpoint();
+let id;
+if(canJoin){id=anchor.group||("g"+groupCounter++);anchor.group=id}
+else id="g"+groupCounter++;
+const fresh=types.map(type=>({type,accent:false,...(beamable(type)?{group:id}:{})}));
+bars[bar].splice(index,0,...fresh);
+selectedBar=bar;selectedNote=canJoin?{b:bar,i:index+types.length-1}:null;cursorIndex=index+types.length;commit();
+}function noteKey(b,i){return b+':'+i}
+function changeNote(b,i,e){
+ const key=noteKey(b,i);
+ if((e?.shiftKey||touchMode==='select'&&selectionAnchor)&&selectionAnchor&&selectionAnchor.b===b){
+  const from=Math.min(selectionAnchor.i,i),to=Math.max(selectionAnchor.i,i);
+  if(!e.ctrlKey&&!e.metaKey)multiNotes.clear();
+  for(let j=from;j<=to;j++)multiNotes.add(noteKey(b,j));
+ }else if(e?.ctrlKey||e?.metaKey||touchMode==='select'){
+  if(multiNotes.has(key))multiNotes.delete(key);else multiNotes.add(key);
+  selectionAnchor={b,i};
+ }else{multiNotes.clear();multiNotes.add(key);selectionAnchor={b,i};}
+ selectedNote={b,i};selectedBar=b;cursorIndex=i+1;render();
+ message(multiNotes.size+' note(s) selected. Use the palm-mute selection buttons to edit them together.');
+}
+function applySelectedPalmMute(value){
+ if(!multiNotes.size)return message('Select notes first. Shift-click to select a range.');
+ const targets=[...multiNotes].map(key=>key.split(':').map(Number)).filter(([b,i])=>bars[b]?.[i]&&!bars[b][i].type.startsWith('r'));
+ if(!targets.length)return message('No playable notes selected.');
+ checkpoint();targets.forEach(([b,i])=>bars[b][i].pm=value);commit();
+ message((value?'Palm muted ':'Unmuted ')+targets.length+' selected notes.');
+}
+$('pmSelectionOn').onclick=()=>applySelectedPalmMute(true);
+$('pmSelectionOff').onclick=()=>applySelectedPalmMute(false);
+$('clearMulti').onclick=()=>{multiNotes.clear();selectedNote=null;selectionAnchor=null;render();};
+function countName(position){
+ const beat=Math.floor(position+1e-7)+1;
+ const fraction=position-Math.floor(position+1e-7);
+ const quarter=Math.round(fraction*4);
+ if(Math.abs(fraction-quarter/4)<.0001)return String(beat)+(['',' e',' &',' a'][quarter]||'');
+ const trip=Math.round(fraction*3);
+ if(Math.abs(fraction-trip/3)<.0001)return beat+(trip===1?' trip':trip===2?' let':'');
+ return beat+' + '+Number(fraction.toFixed(3));
+}
+function updateInspector(){
+ const n=selectedNote&&bars[selectedNote.b]?.[selectedNote.i];
+ const btn=$('pmToggle');
+ if(!btn)return;
+ btn.disabled=!n||n.type.startsWith('r');
+ btn.classList.toggle('isOn',!!n?.pm);
+ btn.textContent='PM · Palm mute: '+(n?.pm?'On':'Off');const pick=$('pickDirection'),accent=$('accentToggle');pick.disabled=!n||n.type.startsWith('r');pick.value=n?.pick||'';accent.disabled=!n||n.type.startsWith('r');accent.textContent='Accent: '+(n?.accent?'On':'Off');
+ if(!n){
+  $('inspectSelected').textContent='No note selected';
+  $('inspectCount').textContent='—';$('inspectStart').textContent='—';$('inspectDuration').textContent='—';
+  return;
+ }
+ const bar=bars[selectedNote.b],start=bar.slice(0,selectedNote.i).reduce((a,x)=>a+noteDur(x),0);
+ $('inspectSelected').textContent='Measure '+(selectedNote.b+1)+' · '+names[n.type];
+ $('inspectCount').textContent=countName(start);
+ $('inspectStart').textContent=Number(start.toFixed(3))+' beats after bar start';
+ $('inspectDuration').textContent=Number(noteDur(n).toFixed(3))+' beat'+(Math.abs(noteDur(n)-1)<.0001?'':'s');
+}
+$('pmToggle').onclick=()=>{
+ if(multiNotes.size>1){applySelectedPalmMute(!bars[selectedNote.b][selectedNote.i].pm);return;}
+ if(!selectedNote)return;
+ const n=bars[selectedNote.b]?.[selectedNote.i];
+ if(!n||n.type.startsWith('r'))return;
+ checkpoint();n.pm=!n.pm;commit();
+ message(n.pm?'Palm mute enabled for selected note.':'Palm mute removed from selected note.');
+};
+$('pickDirection').onchange=e=>{if(!selectedNote)return;const n=bars[selectedNote.b]?.[selectedNote.i];if(!n||n.type.startsWith('r'))return;checkpoint();n.pick=e.target.value||undefined;commit();};
+$('accentToggle').onclick=()=>{if(!selectedNote)return;const n=bars[selectedNote.b]?.[selectedNote.i];if(!n||n.type.startsWith('r'))return;checkpoint();n.accent=!n.accent;commit();};
+function measurePicking(mode){const bar=bars[selectedBar];if(!bar)return;checkpoint();let played=0;bar.forEach(n=>{if(n.type.startsWith('r'))return;n.pick=mode==='clear'?undefined:mode==='down'?'down':(played%2?'up':'down');played++;});commit();message('Picking updated for measure '+(selectedBar+1)+'.');}
+$('autoAlternate').onclick=()=>measurePicking('alternate');
+$('autoDown').onclick=()=>measurePicking('down');
+$('clearPicking').onclick=()=>measurePicking('clear');
+function setBeamMute(value){if(!selectedNote)return message('Select a note in a beam group first.');const bar=bars[selectedNote.b],n=bar?.[selectedNote.i];if(!n||n.type.startsWith('r'))return;checkpoint();if(n.group){bar.forEach(note=>{if(note.group===n.group&&!note.type.startsWith('r'))note.pm=value;});}else n.pm=value;commit();message(value?'Palm mute applied to selected group.':'Palm mute removed from selected group.');}
+$('muteGroup').onclick=()=>setBeamMute(true);
+$('unmuteGroup').onclick=()=>setBeamMute(false);
+function palette(){Object.entries(names).forEach(([type,name])=>{const b=document.createElement('button');b.className='tile';b.draggable=true;b.dataset.type=type;b.innerHTML=`<span>${symbols[type]}</span><b>${name}</b><small>${dur[type].toFixed(2)} beats</small>`;b.onclick=()=>{selected=type;document.querySelectorAll('.tile').forEach(x=>x.classList.remove('active'));b.classList.add('active');message('Selected '+name+'. Drag it onto a measure to add it.')};b.ondragstart=e=>e.dataTransfer.setData('text/plain',JSON.stringify({kind:'palette',types:[type]}));$('palette').append(b)});$('palette').firstChild.classList.add('active');Object.entries(groups).forEach(([name,types])=>{const b=document.createElement('button');b.className='tile';b.draggable=true;b.innerHTML=`<span>${types.map(x=>symbols[x]).join('')}</span><b>${name}</b><small>${types.length} notes</small>`;b.onclick=()=>{message('Drag '+name+' onto a measure to add the group.')};b.ondragstart=e=>e.dataTransfer.setData('text/plain',JSON.stringify({kind:'palette',types}));$('groups').append(b)})}
+const svgNS='http://www.w3.org/2000/svg';function el(name,attrs={},parent){const n=document.createElementNS(svgNS,name);Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,v));parent?.append(n);return n}
+function render(){updateInspector();$('multiCount').textContent=multiNotes.size+' note(s) selected';const board=$('board');board.innerHTML='';bars.forEach((bar,bi)=>{const wrap=document.createElement('div');wrap.className='measure'+(barTotal(bar)>sig()+.001?' warn':'');const head=document.createElement('div');head.className='measurehead';head.innerHTML=`<span>Measure ${bi+1} · ${$('signature').value}</span><span>${Number(barTotal(bar).toFixed(3))} / ${sig()} beats ${barTotal(bar)>sig()+.001?'⚠ overfilled':Math.abs(barTotal(bar)-sig())<.001?'✓ complete':'· '+Number((sig()-barTotal(bar)).toFixed(3))+' remaining'}</span>`;wrap.append(head);
+const width=Math.max(560,bar.length*55+90);const svg=el('svg',{viewBox:`0 0 ${width} 145`,width:width,height:145,class:'notation'},null);el('line',{x1:25,y1:91,x2:width-20,y2:91,stroke:'#77708e','stroke-width':1},svg);el('line',{x1:25,y1:55,x2:25,y2:114,stroke:'#847a99','stroke-width':2},svg);el('line',{x1:width-20,y1:55,x2:width-20,y2:114,stroke:'#847a99','stroke-width':2},svg);
+const spacing=(width-95)/Math.max(1,bar.length);const xs=bar.map((_,i)=>55+i*spacing);const heads=[];let beatPos=0;
+bar.forEach((n,i)=>{const x=xs[i],rest=n.type.startsWith('r'),hollow=['h','w'].includes(n.type),whole=n.type==='w';const hit=el('rect',{x:x-21,y:22,width:spacing,height:102,rx:7,fill:'transparent',class:'noteHit'+(multiNotes.has(noteKey(bi,i))?' selected':'')},svg);hit.onclick=e=>{e.stopPropagation();if(e.shiftKey)e.preventDefault();if(window.matchMedia('(max-width:900px)').matches&&touchMode==='add'){insertTouch(bi,i+1,'join',i);return}if(window.matchMedia('(max-width:900px)').matches&&touchMode==='move'){moveTouch(bi,i);return}changeNote(bi,i,e)};hit.ondblclick=e=>{e.stopPropagation();checkpoint();n.accent=!n.accent;commit()};hit.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',JSON.stringify({kind:'move',b:bi,i}))});hit.setAttribute('draggable','true');hit.addEventListener('dragover',e=>{e.preventDefault();e.stopPropagation();hit.classList.add('dropJoin');e.dataTransfer.dropEffect='copy'});hit.addEventListener('dragleave',()=>hit.classList.remove('dropJoin'));hit.addEventListener('drop',e=>{e.preventDefault();e.stopPropagation();hit.classList.remove('dropJoin');dropAt(e,bi,i,'join')});
+if(rest){el('text',{x,y:95,fill:'#e7d9ff','font-size':29,'text-anchor':'middle'},svg).textContent=symbols[n.type]}else{el('ellipse',{cx:x,cy:91,rx:9,ry:6,transform:`rotate(-20 ${x} 91)`,fill:hollow?'#161321':'#f7efff',stroke:'#f7efff','stroke-width':hollow?2:0},svg);if(!whole)el('line',{x1:x+8,y1:89,x2:x+8,y2:42,stroke:'#f7efff','stroke-width':2.5},svg);if(n.type==='de'||n.type==='dq')el('circle',{cx:x+21,cy:91,r:2.5,fill:'#f7efff'},svg);if(n.pick)el('text',{x,y:5,fill:'#f7cf8a','font-size':14,'font-weight':'bold','text-anchor':'middle'},svg).textContent=n.pick==='down'?'↓':'↑';if(n.pm)el('text',{x,y:16,fill:'#7ce4dd','font-size':11,'font-weight':'bold','text-anchor':'middle',class:'pmMark'},svg).textContent='PM';if(n.accent)el('text',{x,y:n.pm?31:23,fill:'#ffcf80','text-anchor':'middle','font-size':18},svg).textContent='>';if(n.type==='t'&&!n.group)el('text',{x,y:30,fill:'#c6a0ff','text-anchor':'middle','font-size':13},svg).textContent='3'}
+if(n.type==='e'||n.type==='s'||n.type==='de'||n.type==='t')heads.push({i,x,n,beat:beatPos});beatPos+=noteDur(n);el('text',{x,y:132,fill:'#8e87a7','font-size':10,'text-anchor':'middle'},svg).textContent=Number((beatPos-noteDur(n)+1).toFixed(2));});
+// Group consecutive short notes without crossing a standard beat boundary; 6/8 groups in dotted quarters.
+let runs=[],run=[];const beatSize=$('signature').value==='6/8'?1.5:1;const flush=()=>{if(run.length)runs.push(run);run=[]};for(const h of heads){const prev=run[run.length-1];if(prev&&(h.i!==prev.i+1||(h.n.group||prev.n.group?h.n.group!==prev.n.group:(h.n.type==='e'&&prev.n.type==='e'?run.length>=4:Math.floor((h.beat+1e-7)/beatSize)!==Math.floor((prev.beat+1e-7)/beatSize)))))flush();run.push(h)}flush();runs.forEach(run=>{if(run.length<2){const h=run[0];if(h&&h.n.type!=='t'){el('path',{d:`M${h.x+8} 42q20 4 12 23q-5 -12 -12 -13`,fill:'#f7efff'},svg)}return}const first=run[0],last=run[run.length-1];el('line',{x1:first.x+8,y1:42,x2:last.x+8,y2:42,stroke:'#f7efff','stroke-width':5},svg);run.forEach((h,i)=>{if(h.n.type==='s'){const next=run[i+1],prev=run[i-1];if(next?.n.type==='s')el('line',{x1:h.x+8,y1:53,x2:next.x+8,y2:53,stroke:'#f7efff','stroke-width':4},svg);else if(prev?.n.type!=='s')el('line',{x1:h.x+8,y1:53,x2:h.x+Math.min(spacing*.55,24),y2:53,stroke:'#f7efff','stroke-width':4},svg)}});if(first.n.tuplet&&run.every(h=>h.n.group===first.n.group))el('text',{x:(first.x+last.x)/2,y:26,fill:'#c6a0ff','font-size':15,'text-anchor':'middle'},svg).textContent=first.n.tuplet.label;else if(run.every(h=>h.n.type==='t'))el('text',{x:(first.x+last.x)/2,y:26,fill:'#c6a0ff','font-size':15,'text-anchor':'middle'},svg).textContent='3'});
+svg.querySelectorAll('ellipse,path,text,circle,line').forEach(node=>{if(!node.classList.contains('playhead'))node.classList.add('noteArt')});
+svg.querySelectorAll('.noteHit').forEach(hit=>svg.appendChild(hit));
+if(selectedBar===bi){const at=insertionMode==='append'?bar.length:Math.min(cursorIndex,bar.length);const cx=at>=xs.length?(xs.length?xs[xs.length-1]+spacing:55):xs[at]-spacing*.33;el('line',{x1:cx,y1:18,x2:cx,y2:119,stroke:'#bd88ff','stroke-width':3,'stroke-dasharray':'5 3','pointer-events':'none'},svg)}svg.addEventListener('click',e=>{if(e.target===svg||e.target.tagName==='line'){if(window.matchMedia('(max-width:900px)').matches&&touchMode==='add'){insertTouch(bi,bar.length,'new');return}selectedBar=bi;cursorIndex=bar.length;selectedNote=null;render();message('Cursor moved to end of measure '+(bi+1)+'. Drag a note here to add it.')}});svg.addEventListener('dragover',e=>{e.preventDefault();svg.classList.add('dropBlank')});svg.addEventListener('dragleave',()=>svg.classList.remove('dropBlank'));svg.addEventListener('drop',e=>{e.preventDefault();svg.classList.remove('dropBlank');const hit=e.target.closest?.('.noteHit');if(hit){const idx=[...svg.querySelectorAll('.noteHit')].indexOf(hit);if(idx>=0){dropAt(e,bi,idx,'join');return}}const pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;const local=pt.matrixTransform(svg.getScreenCTM().inverse());const idx=xs.findIndex(x=>Math.abs(local.x-x)<=22&&local.y>=22&&local.y<=124);if(idx>=0)dropAt(e,bi,idx,'join');else dropAt(e,bi,bar.length,'new')});wrap.append(svg);if(window.matchMedia('(max-width:900px)').matches){const addBtn=document.createElement('button');addBtn.textContent='＋ Add '+(names[selected]||'note')+' to end';addBtn.type='button';addBtn.onclick=()=>insertTouch(bi,bars[bi].length,'new');wrap.append(addBtn)}const actions=document.createElement('div');actions.className='baractions';actions.innerHTML=`<button data-action="dup">Duplicate</button><button data-action="new">+ Measure</button><button data-action="clear">Clear measure</button><button data-action="del">Delete measure</button>`;actions.addEventListener('click',e=>{const a=e.target.dataset.action;if(!a)return;if(a==='dup'){checkpoint();bars.splice(bi+1,0,clone(bar));commit()}if(a==='new'){checkpoint();bars.splice(bi+1,0,[]);selectedBar=bi+1;selectedNote=null;cursorIndex=0;commit()}if(a==='clear'){if(!bars[bi].length){message('Measure '+(bi+1)+' is already empty.');return}stop();checkpoint();bars[bi]=[];selectedNote=null;selectedBar=bi;cursorIndex=0;commit();message('Cleared measure '+(bi+1)+'. Undo restores it.')}if(a==='del'&&bars.length>1){checkpoint();bars.splice(bi,1);selectedNote=null;selectedBar=Math.min(selectedBar,bars.length-1);commit()}});wrap.append(actions);board.append(wrap)});$('loops').textContent=loops}
+function insertTouch(b,index,mode,targetIndex){
+ if(touchMode!=='add')return;
+ const type=selected;if(!dur[type])return;
+ const bar=bars[b];if(!bar)return;
+ checkpoint();
+ const note={type,accent:false};
+ if(mode==='join'&&Number.isInteger(targetIndex)){
+  const target=bar[targetIndex];
+  if(target&&['e','s','de','t'].includes(target.type)&&['e','s','de','t'].includes(type)){
+   const id=target.group||('g'+groupCounter++);target.group=id;note.group=id;
+  }
+ }else if(['e','s','de','t'].includes(type))note.group='g'+groupCounter++;
+ bar.splice(index,0,note);selectedBar=b;selectedNote={b,i:index};cursorIndex=index+1;multiNotes=new Set([noteKey(b,index)]);selectionAnchor={b,i:index};commit();
+ message('Added '+names[type]+' to measure '+(b+1)+'.');
+}
+function moveTouch(b,i){
+ if(!touchMoveSource){touchMoveSource={b,i};message('Note selected for moving. Tap the destination note to insert after it.');return}
+ const src=touchMoveSource;touchMoveSource=null;
+ if(src.b===b&&src.i===i)return;
+ const source=bars[src.b];if(!source?.[src.i])return;
+ checkpoint();const [n]=source.splice(src.i,1);const at=src.b===b&&src.i<i?i:i+1;bars[b].splice(at,0,n);selectedNote={b,i:at};selectedBar=b;commit();message('Moved note.');}
+function setTouchMode(mode){
+ touchMode=mode;touchMoveSource=null;selectionAnchor=null;
+ for(const [id,value] of [['touchAdd','add'],['touchSelect','select'],['touchMove','move']])$(id).classList.toggle('active',mode===value);
+ $('touchHint').textContent=mode==='add'?'Add mode: tap a note type, then tap a measure or existing note.':mode==='select'?'Multi-select: tap notes to select or deselect them. Use PM selection buttons in Note Inspector.':'Move: tap a source note, then tap a destination note.';
+ render();
+}
+$('touchAdd').onclick=()=>setTouchMode('add');
+$('touchSelect').onclick=()=>setTouchMode('select');
+$('touchMove').onclick=()=>setTouchMode('move');
+$('touchClear').onclick=()=>{multiNotes.clear();selectionAnchor=null;selectedNote=null;render();message('Selection cleared.')};
+function dropAt(e,b,i,mode='new'){
+let data;try{data=JSON.parse(e.dataTransfer.getData('text/plain'))}catch{return}
+if(!data||!['palette','move'].includes(data.kind))return;
+const isJoin=mode==='join'&&i<bars[b].length;
+// A note target means 'insert AFTER this note'; the empty measure means 'append as a new group'.
+const target=isJoin?bars[b][i]:null;
+let insertIndex=isJoin?i+1:bars[b].length;
+checkpoint();
+let fresh=[];
+if(data.kind==='palette')fresh=data.types.map(type=>({type,accent:false}));
+else if(data.kind==='move'){
+  const from=bars[data.b];if(!from||!from[data.i]){undo.pop();return}
+  const moved=from.splice(data.i,1)[0];
+  if(data.b===b&&data.i<insertIndex)insertIndex--;
+  fresh=[moved];
+}
+const beamable=t=>['e','s','de','t'].includes(t);
+const canJoin=target&&beamable(target.type)&&!target.tuplet&&fresh.every(n=>beamable(n.type)&&!n.tuplet);
+if(canJoin){
+  const id=target.group||('g'+groupCounter++);
+  target.group=id;
+  fresh.forEach(n=>{n.group=id;delete n.tuplet});
+}else{
+  // Explicitly separate this drop from neighboring beam groups.
+  const id='g'+groupCounter++;
+  fresh.forEach(n=>{if(beamable(n.type))n.group=id;else delete n.group});
+}
+bars[b].splice(insertIndex,0,...fresh);
+selectedBar=b;selectedNote=null;cursorIndex=insertIndex+fresh.length;commit();
+message(canJoin?'Connected '+fresh.length+' note(s) immediately after the target.':'Created a separate note group at the end of measure '+(b+1)+'.');
+}
+function updateHistory(){historyData.seconds=practiceSeconds;historyData.best=Math.max(historyData.best,Number($('bpm').value));$('practiceTime').textContent=(practiceSeconds/60).toFixed(1)+' min';$('sessions').textContent=historyData.sessions;$('best').textContent=historyData.best?historyData.best+' BPM':'—';save()}
+function sound(at,kind='note',accent=false){if(!audio)return;const o=audio.createOscillator(),g=audio.createGain();o.type=kind==='click'?'sine':'triangle';o.frequency.setValueAtTime(kind==='click'?(accent?1250:900):(accent?380:280),at);o.frequency.exponentialRampToValueAtTime(kind==='click'?700:100,at+.035);let vol=kind==='click'?Number($('volume').value)/100*.19:(accent?.25:.14);g.gain.setValueAtTime(Math.max(.0001,vol),at);g.gain.exponentialRampToValueAtTime(.0001,at+.055);o.connect(g).connect(audio.destination);o.start(at);o.stop(at+.065)}
+// Audio clock drives every click and note. The animation follows the same scheduled timestamps.
+let transportSegments=[],nextSegmentStart=0,nextMeasureIndex=0,countBarsToSchedule=0,transportGeneration=0,activeNodes=[],transportTempo=85,scheduledLoops=0;
+function transportSound(at,kind='note',accent=false,pm=false){
+ if(!audio)return;
+ const o=audio.createOscillator(),g=audio.createGain();activeNodes.push(o);
+ const click=kind==='click';
+ const pitch=click?(accent?1250:900):Number($('notePitch').value);
+ const duration=click?.065:(pm?Math.min(.055,Number($('noteLength').value)):Number($('noteLength').value));
+ o.type=click?'sine':$('noteWave').value;
+ o.frequency.setValueAtTime(pitch,at);
+ if(click)o.frequency.exponentialRampToValueAtTime(700,at+.035);
+ const vol=click?Number($('volume').value)/100*.19:Number($('noteVolume').value)/100*(accent?.34:.22)*(pm?.62:1);
+ g.gain.setValueAtTime(Math.max(.0001,vol),at);
+ g.gain.exponentialRampToValueAtTime(.0001,at+duration*.88);
+ o.connect(g).connect(audio.destination);
+ o.onended=()=>{activeNodes=activeNodes.filter(x=>x!==o);o.disconnect();g.disconnect()};
+ o.start(at);o.stop(at+duration);
+}
+function updateCountVisual(seg,now){
+ const panel=$('countVisual');
+ if(!seg||!seg.count){panel.classList.remove('active');return}
+ panel.classList.add('active');
+ const beats=Math.max(1,Math.ceil(seg.beats));
+ const current=Math.min(beats-1,Math.floor(Math.max(0,(now-seg.start)/seg.sec)));
+ const countSegments=transportSegments.filter(x=>x.count);
+ const barNo=countSegments.findIndex(x=>x===seg)+1;
+ $('countTitle').textContent='Get ready — count-in';
+ $('countProgress').textContent='Bar '+Math.max(1,barNo)+' · Beat '+(current+1)+' of '+beats;
+ const key=beats;
+ if(panel.dataset.beats!==String(key)){
+  $('countDots').innerHTML=Array.from({length:beats},(_,i)=>'<span>'+(i+1)+'</span>').join('');
+  panel.dataset.beats=String(key);
+ }
+ [...$('countDots').children].forEach((n,i)=>n.className=i===current?'current':i<current?'done':'');
+}
+$('notePitch').oninput=()=>{$('notePitchText').textContent=$('notePitch').value+' Hz'};
+$('previewNote').onclick=async()=>{
+ audio=audio||new (window.AudioContext||window.webkitAudioContext)();await audio.resume();
+ transportSound(audio.currentTime+.015,'note',false);
+};
+function schedule(){
+ if(!playing||!audio||schedulingFinished)return;
+ const now=audio.currentTime,lookahead=.14;
+ while(nextSegmentStart<now+lookahead){
+  const sec=60/transportTempo,beats=sig(),length=beats*sec,isCount=countBarsToSchedule>0;
+  const barIndex=isCount?-1:nextMeasureIndex;
+  const segment={start:nextSegmentStart,end:nextSegmentStart+length,bar:barIndex,sec,beats,count:isCount,bpm:transportTempo,completedLoops:scheduledLoops};
+  transportSegments.push(segment);
+  const clickmode=$('clickmode').value;
+  const step=clickmode==='sixteenth'?.25:clickmode==='eighth'?.5:clickmode==='triplet'?1/3:1;
+  const silent=!isCount&&$('silent').checked&&barIndex%4===3;
+  if(isCount||clickmode!=='none'){
+   const interval=isCount?1:step;
+   for(let beat=0;beat<beats-1e-8;beat+=interval){if(!silent)transportSound(segment.start+beat*sec,'click',beat<1e-8)}
+  }
+  if(!isCount){
+   let beat=0;
+   bars[barIndex].forEach((n,ni)=>{
+    if(beat<beats-1e-8&&!n.type.startsWith('r')&&!silent)transportSound(segment.start+beat*sec,'note',n.accent,!!n.pm);
+    beat+=noteDur(n);
+   });
+  }
+  nextSegmentStart=segment.end;
+  if(isCount){countBarsToSchedule--;continue}
+  nextMeasureIndex++;
+  if(nextMeasureIndex>=bars.length){
+   nextMeasureIndex=0;scheduledLoops++;
+   if(!$('loop').checked){schedulingFinished=true;break}
+   if($('speed').checked&&scheduledLoops%Math.max(1,Number($('every').value)||1)===0){
+    transportTempo=Math.min(300,transportTempo+Math.max(1,Number($('step').value)||1));
+   }
+  }
+ }
+ // Discard segments only after their scheduled end, preserving exact visual boundaries.
+ while(transportSegments.length>2&&transportSegments[0].end<now-.2)transportSegments.shift();
+}
+function showPlayhead(segment,now){
+ document.querySelectorAll('.measure').forEach((m,i)=>m.classList.toggle('playingBar',i===segment?.bar));
+ document.querySelectorAll('.playhead').forEach(n=>n.remove());
+ document.querySelectorAll('.noteHit').forEach(x=>{x.style.stroke='';x.style.strokeWidth=''});
+ if(!segment||segment.count||segment.bar<0)return;
+ const svg=$('board').children[segment.bar]?.querySelector('svg.notation');if(!svg)return;
+ const notes=bars[segment.bar],elapsed=Math.max(0,Math.min(segment.beats,(now-segment.start)/segment.sec));
+ let onset=0,activeIndex=-1;
+ for(let i=0;i<notes.length;i++){if(onset<=elapsed+1e-7)activeIndex=i;onset+=noteDur(notes[i])}
+ const width=Number(svg.viewBox.baseVal.width),spacing=(width-95)/Math.max(1,notes.length);
+ // Continuous playhead advances in musical time, not by note index.
+ let pos=0;const starts=notes.map(n=>{const old=pos;pos+=noteDur(n);return old});
+ let x;
+ if(!notes.length)x=55+(width-110)*elapsed/segment.beats;
+ else if(elapsed>=pos)x=55+notes.length*spacing;
+ else{
+  let k=0;while(k<notes.length-1&&starts[k+1]<=elapsed)k++;
+  const duration=noteDur(notes[k]);x=55+k*spacing+Math.min(1,Math.max(0,(elapsed-starts[k])/duration))*spacing;
+ }
+ x=Math.min(width-24,Math.max(32,x));
+ el('line',{x1:x,y1:15,x2:x,y2:120,class:'playhead'},svg);
+ if(activeIndex>=0){const hit=svg.querySelectorAll('.noteHit')[activeIndex];if(hit){hit.style.stroke='#7ce4dd';hit.style.strokeWidth='2'}}
+}
+
+// Subdivision display is read-only: it follows the audio clock and never changes editor events.
+let subLastKey='',subLastIndex=-1;
+function subConfig(){
+ const mode=$('subMode').value;
+ const labels=mode==='sixteenth'?['','e','&','a']:mode==='eighth'?['','&']:mode==='triplet'?['','trip','let']:[''];
+ return {labels,parts:labels.length};
+}
+function buildSubGrid(){
+ const {labels,parts}=subConfig(),quarterBeats=Math.max(1,Math.round(sig()));
+ const grid=$('subGrid');grid.style.setProperty('--subcols',Math.min(4,quarterBeats));
+ grid.innerHTML='';
+ for(let b=0;b<quarterBeats;b++){
+  const group=document.createElement('div');group.className='subBeat';
+  const title=document.createElement('div');title.className='subBeatTitle';title.textContent='Beat '+(b+1);
+  const slots=document.createElement('div');slots.className='subSlots';slots.style.setProperty('--slots',parts);
+  labels.forEach((label,i)=>{const slot=document.createElement('div');slot.className='subSlot';slot.textContent=i===0?String(b+1):label;slot.dataset.position=String(b*parts+i);slots.append(slot)});
+  group.append(title,slots);grid.append(group);
+ }
+ subLastIndex=-1;subLastKey=$('signature').value+'|'+$('subMode').value;
+}
+function updateSubGrid(segment,now){
+ const key=$('signature').value+'|'+$('subMode').value;
+ if(key!==subLastKey)buildSubGrid();
+ if(!segment){if(subLastIndex!==-1){$('subGrid').querySelectorAll('.subSlot').forEach(s=>s.className='subSlot');$('subGrid').querySelectorAll('.subBeat').forEach(s=>s.classList.remove('active'));subLastIndex=-1}return}
+ const {labels,parts}=subConfig();
+ const elapsed=Math.max(0,Math.min(segment.beats-1e-7,(now-segment.start)/segment.sec));
+ const position=Math.floor(elapsed*parts+1e-7);
+ if(position===subLastIndex)return;
+ subLastIndex=position;
+ $('subGrid').querySelectorAll('.subSlot').forEach((s,i)=>s.className='subSlot'+(i===position?' active':i<position?' passed':''));
+ $('subGrid').querySelectorAll('.subBeat').forEach((s,i)=>s.classList.toggle('active',i===Math.floor(position/parts)));
+ const beat=Math.floor(position/parts)+1,sub=position%parts;
+ const spoken=sub===0?String(beat):labels[sub];
+ $('subStatus').textContent=(segment.count?'Count-in':'Measure '+(segment.bar+1))+' · Beat '+beat+' · Count: '+spoken+' · Position '+(position+1)+' of '+(Math.round(segment.beats)*parts);
+}
+$('subMode').onchange=()=>{buildSubGrid();updateSubGrid(null,0);$('subStatus').textContent='Press Play to follow '+$('subMode').selectedOptions[0].text.toLowerCase()+'.'};
+$('signature').addEventListener('change',()=>{buildSubGrid();updateSubGrid(null,0)});
+buildSubGrid();
+
+function frame(){
+ if(!playing||!audio)return;
+ const now=audio.currentTime;
+ const seg=transportSegments.find(s=>now>=s.start&&now<s.end);
+ updateCountVisual(seg,now);
+ updateSubGrid(seg,now);
+ if(seg){
+  const beat=(now-seg.start)/seg.sec;
+  $('transportLabel').textContent=seg.count?'Count-in':`Measure ${seg.bar+1} / ${bars.length}`;if(!seg.count){$('bpm').value=seg.bpm;loops=seg.completedLoops;$('loops').textContent=loops;}
+  $('beatLabel').textContent=(Math.floor(beat*100)/100+1).toFixed(2);
+  
+  showPlayhead(seg,now);
+ }
+ if(schedulingFinished&&now>=nextSegmentStart-.005){stop();return}
+ raf=requestAnimationFrame(frame);
+}
+async function play(){
+ if(playing)return;
+ if(!window.AudioContext&&!window.webkitAudioContext){message('Web Audio is not supported in this browser.');return}
+ audio=audio||new (window.AudioContext||window.webkitAudioContext)();await audio.resume();
+ if(playing)return;
+ playing=true;startedSession=true;historyData.sessions++;
+ transportGeneration++;transportTempo=Math.max(20,Math.min(400,Number($('bpm').value)||85));
+ nextSegmentStart=audio.currentTime+.15;nextMeasureIndex=0;countBarsToSchedule=Number($('countin').value)||0;
+ transportSegments=[];scheduledLoops=0;loops=0;schedulingFinished=false;
+ $('loops').textContent='0';$('transportLabel').textContent=countBarsToSchedule?'Count-in':'Starting…';
+ $('play').textContent='▶ Playing';scheduler=setInterval(schedule,25);schedule();frame();updateHistory();
+ message('Playback uses audio-clock scheduling with a moving playhead and continuous measure transitions.');
+}
+function stop(){
+ playing=false;transportGeneration++;
+ clearTimeout(playStopTimer);playStopTimer=null;clearInterval(scheduler);scheduler=null;
+ cancelAnimationFrame(raf);
+ // Cancel already queued oscillators, so Stop is immediate and Play does not inherit old clicks.
+ activeNodes.forEach(n=>{try{n.stop()}catch(e){}});activeNodes=[];
+ transportSegments=[];schedulingFinished=false;
+ $('countVisual').classList.remove('active');
+ updateSubGrid(null,0);$('subStatus').textContent='Stopped · Press Play to follow the subdivisions.';
+ $('play').textContent='▶ Play';$('beatLabel').textContent='—';$('transportLabel').textContent='Stopped';
+ document.querySelectorAll('.measure').forEach(x=>x.classList.remove('playingBar'));
+ document.querySelectorAll('.playhead').forEach(x=>x.remove());
+ document.querySelectorAll('.noteHit').forEach(x=>{x.style.stroke='';x.style.strokeWidth=''});
+ updateHistory();
+}
+setInterval(()=>{if(playing){practiceSeconds++;if(practiceSeconds%5===0)updateHistory()}},1000);
+function importBars(next){if(!next.length)return;stop();checkpoint();bars=next;selectedNote=null;commit();document.querySelector('[data-tab=studio]').click()}
+function fromXml(doc){const root=doc.documentElement;if(!root||root.nodeName.toLowerCase().includes('parsererror')||doc.querySelector('parsererror'))throw Error('Invalid MusicXML');const partList=[...doc.querySelectorAll('score-part')];scoreParts=partList.map(p=>({id:p.getAttribute('id'),name:p.querySelector('part-name')?.textContent||p.getAttribute('id')}));if(!scoreParts.length)scoreParts=[...doc.querySelectorAll('part')].map((p,i)=>({id:p.getAttribute('id'),name:'Part '+(i+1)}));if(!scoreParts.length)throw Error('No parts found in this MusicXML score');$('part').innerHTML=scoreParts.map(p=>`<option value="${p.id}">${p.name.replace(/[<>&]/g,'')}</option>`).join('');return doc}
+function extractXml(doc,id){const part=[...doc.querySelectorAll('part')].find(p=>p.getAttribute('id')===id);if(!part)throw Error('Selected part missing');const out=[];let divisions=1;for(const measure of part.children){if(measure.localName!=='measure')continue;const attr=[...measure.children].find(n=>n.localName==='attributes');const d=attr?.querySelector('divisions');if(d)divisions=Number(d.textContent)||divisions;const items=[];let lastNote=null;for(const node of measure.children){if(node.localName!=='note')continue;if(node.querySelector('grace'))continue;if(node.querySelector('chord'))continue;const raw=Number(node.querySelector('duration')?.textContent);const isRest=!!node.querySelector('rest');let beats=raw>0?raw/divisions:0;const noteType=node.querySelector('type')?.textContent;const timeMod=node.querySelector('time-modification');if(!beats&&noteType){const val={whole:4,half:2,quarter:1,eighth:.5,'16th':.25,'32nd':.125}[noteType]||1;beats=val*(node.querySelector('dot')?1.5:1);if(timeMod){const actual=Number(timeMod.querySelector('actual-notes')?.textContent)||3,normal=Number(timeMod.querySelector('normal-notes')?.textContent)||2;beats*=normal/actual}}if(!beats)continue;const type=Object.keys(dur).filter(t=>t.startsWith('r')===isRest).sort((a,b)=>Math.abs(dur[a]-beats)-Math.abs(dur[b]-beats))[0];if(!type)continue;const ties=[...node.querySelectorAll('tie')].map(t=>t.getAttribute('type'));if(ties.includes('stop')&&lastNote&&!isRest){lastNote.sustain=(lastNote.sustain||0)+beats;continue}const n={type,accent:!!node.querySelector('accent')};if(Math.abs(dur[type]-beats)>.02)n.sustain=beats;items.push(n);lastNote=n}if(items.length)out.push(items)}return out}
+function groupLast(count,ratio,label){const b=bars[selectedBar];if(b.length<count){message('Need '+count+' notes in the selected measure.');return}const notes=b.slice(-count);if(notes.some(n=>n.type!=='e')){message('Grouping currently supports consecutive eighth notes at the end of a measure.');return}checkpoint();const id='g'+groupCounter++;notes.forEach(n=>{n.group=id;if(ratio)n.tuplet={factor:ratio,label};else delete n.tuplet});selectedNote=null;cursorIndex=b.length;commit();message(ratio?'Applied '+label+' tuplet to last '+count+' eighth notes.':'Beamed last '+count+' eighth notes without changing timing.')}function ungroupLast(){const b=bars[selectedBar];checkpoint();b.slice(-4).forEach(n=>{delete n.group;delete n.tuplet});commit();message('Removed explicit grouping and tuplet timing from last four notes.')}$('beam3').onclick=()=>groupLast(3,null,'');$('beam4').onclick=()=>groupLast(4,null,'');$('triplet3').onclick=()=>groupLast(3,2/3,'3');$('quad43').onclick=()=>groupLast(4,3/4,'4:3');$('quad42').onclick=()=>groupLast(4,1/2,'4:2');$('ungroup').onclick=ungroupLast;$('breakBefore').onclick=()=>{if(!selectedNote){message('Select the note where the new beam group should begin.');return}const {b,i}=selectedNote;const arr=bars[b],old=arr[i]?.group;if(!arr[i]||!old){message('That note is not in a beam group.');return}checkpoint();const fresh='g'+groupCounter++;for(let j=i;j<arr.length&&arr[j].group===old;j++)arr[j].group=fresh;commit();message('Split beam before note '+(i+1)+' in measure '+(b+1))};
+$('joinPrevious').onclick=()=>{if(!selectedNote){message('Select a note to join with the previous note.');return}const {b,i}=selectedNote,arr=bars[b];if(i<1||!['e','s','de','t'].includes(arr[i].type)||!['e','s','de','t'].includes(arr[i-1].type)||arr[i].tuplet||arr[i-1].tuplet){message('Select a beamable note with a preceding beamable note (not a tuplet).');return}checkpoint();const old=arr[i].group;const target=arr[i-1].group||('g'+groupCounter++);arr[i-1].group=target;for(let j=i;j<arr.length&&(j===i||old&&arr[j].group===old);j++)arr[j].group=target;commit();message('Joined selected note and its group to the previous beam.')};$('insertMode').onclick=()=>{insertionMode=insertionMode==='append'?'insert':'append';$('insertMode').textContent='Mode: '+(insertionMode==='append'?'Append':'Insert');cursorIndex=insertionMode==='append'?bars[selectedBar].length:Math.min(cursorIndex,bars[selectedBar].length);if(insertionMode==='append')selectedNote=null;render();message(insertionMode==='append'?'Append mode: new notes go at the end.':'Insert mode: click a note to place the cursor after it.')};$('cursorEnd').onclick=()=>{cursorIndex=bars[selectedBar].length;selectedNote=null;render();message('Cursor at end of measure '+(selectedBar+1)+'. Next note starts a NEW beam group.')};$('play').onclick=play;$('stop').onclick=stop;$('undo').onclick=()=>{if(!undo.length)return;stop();redo.push(clone(bars));bars=undo.pop();commit()};$('redo').onclick=()=>{if(!redo.length)return;stop();undo.push(clone(bars));bars=redo.pop();commit()};let lastGoodSignature=validSignature($('signature').value)?$('signature').value:'4/4';
+$('signature').addEventListener('change',()=>{
+ const entered=$('signature').value.trim();
+ if(!validSignature(entered)){$('signature').value=lastGoodSignature;message('Invalid time signature. Try 5/8, 7/8, 11/16, etc. (numerator 1–32, denominator 1, 2, 4, 8, 16, or 32).');return}
+ lastGoodSignature=entered;stop();commit();message('Time signature changed to '+entered+'. Existing notes were preserved; check measure lengths.');
+});
+$('bpm').onchange=save;$('copy').onclick=()=>{clipboard=clone(bars[selectedBar]);message('Copied measure '+(selectedBar+1))};$('paste').onclick=()=>{if(!clipboard)return;checkpoint();bars.splice(selectedBar+1,0,clone(clipboard));commit()};$('duplicate').onclick=()=>{checkpoint();bars.push(clone(bars.at(-1)));commit()};
+$('tap').onclick=()=>{const now=performance.now();tapTimes=tapTimes.filter(t=>now-t<2500);tapTimes.push(now);if(tapTimes.length>=2){const gaps=tapTimes.slice(1).map((t,i)=>t-tapTimes[i]);$('bpm').value=Math.max(30,Math.min(300,Math.round(60000/(gaps.reduce((a,b)=>a+b,0)/gaps.length))));save()}};
+function validateProject(d){
+ if(!d||typeof d!=='object'||!Array.isArray(d.bars)||!d.bars.length||d.bars.length>200)throw Error('Project must contain 1–200 measures.');
+ const allowed=new Set(Object.keys(dur));let total=0;
+ for(const [bi,bar] of d.bars.entries()){
+  if(!Array.isArray(bar)||bar.length>256)throw Error('Measure '+(bi+1)+' has too many notes or is invalid.');
+  for(const n of bar){
+   total++;if(total>12000)throw Error('Project contains too many notes.');
+   if(!n||typeof n!=='object'||!allowed.has(n.type))throw Error('Unsupported note in measure '+(bi+1));
+   if(n.tuplet&&(!Number.isFinite(n.tuplet.factor)||n.tuplet.factor<=0||n.tuplet.factor>2))throw Error('Invalid tuplet in measure '+(bi+1));
+   if(n.group!=null&&(typeof n.group!=='string'||n.group.length>100))throw Error('Invalid note group.');
+   if(n.pick!=null&&!['down','up','none',''].includes(n.pick))throw Error('Unsupported picking direction.');
+  }
+ }
+ if(!validSignature(d.signature))throw Error('Use a valid time signature such as 4/4, 7/8, or 11/16 (up to 32 beats per bar).');
+ if(!Number.isFinite(Number(d.bpm))||Number(d.bpm)<20||Number(d.bpm)>400)throw Error('BPM must be between 20 and 400.');
+ return {bars:clone(d.bars),signature:d.signature,bpm:Number(d.bpm)};
+}
+function applyProject(d){const p=validateProject(d);lastGoodSignature=p.signature;stop();checkpoint();bars=p.bars;selectedNote=null;$('bpm').value=p.bpm;$('signature').value=p.signature;commit();document.querySelector('[data-tab=studio]').click();}
+$('saveJson').onclick=()=>{const date=new Date().toISOString().slice(0,10);download('pulseforge-'+date+'.json',JSON.stringify({version:20,format:'pulseforge-project',bars,bpm:Number($('bpm').value),signature:$('signature').value,exportedAt:new Date().toISOString()},null,2),'application/json');message('Project exported. Keep the JSON file somewhere safe.');};
+$('loadJson').onchange=async e=>{try{const file=e.target.files?.[0];if(!file)return;if(file.size>3000000)throw Error('Project file is too large (3 MB maximum).');const d=JSON.parse(await file.text());const p=validateProject(d);if(!confirm('Import '+p.bars.length+' measure(s)? Your current project will be saved as a recovery backup.'))return;applyProject(p);message('Imported '+p.bars.length+' measures. Your previous project is available via Restore backup.');}catch(err){message('Cannot load project: '+err.message)}finally{e.target.value='';}};
+$('restoreBackup').onclick=()=>{try{const raw=localStorage.getItem('pulseforge-recovery-v20');if(!raw)throw Error('No recovery backup is available yet.');const p=validateProject(JSON.parse(raw));if(!confirm('Restore the last recovery backup ('+p.bars.length+' measures)? This replaces your current project, but Undo can reverse it.'))return;applyProject(p);message('Recovery backup restored.');}catch(err){message('Recovery failed: '+err.message)}};
+function download(name,body,type){const a=document.createElement('a'),url=URL.createObjectURL(new Blob([body],{type}));a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+function refreshLibrary(){const data=JSON.parse(localStorage.getItem('pulseforge-library')||'{}');$('savedPatterns').innerHTML='<option value="">Saved patterns</option>'+Object.keys(data).map(x=>`<option>${x.replace(/[<>&]/g,'')}</option>`).join('')};$('savePattern').onclick=()=>{const name=prompt('Pattern name?');if(!name)return;const data=JSON.parse(localStorage.getItem('pulseforge-library')||'{}');data[name]={bars:clone(bars),bpm:$('bpm').value,signature:$('signature').value};localStorage.setItem('pulseforge-library',JSON.stringify(data));refreshLibrary()};$('loadPattern').onclick=()=>{const data=JSON.parse(localStorage.getItem('pulseforge-library')||'{}');const p=data[$('savedPatterns').value];if(p){importBars(p.bars);$('bpm').value=p.bpm;$('signature').value=p.signature;commit()}};
+document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-tab]').forEach(x=>x.classList.remove('active'));b.classList.add('active');['studio','song','learn'].forEach(id=>$(id).classList.toggle('hide',id!==b.dataset.tab))});
+// Palm-mute drill curriculum: same rhythmic grid, increasingly demanding articulation changes.
+const pmDrillSpecs=[
+ {level:'Quarter notes',type:'q',name:'1 · All muted, then open',hint:'One bar of muted quarters followed by one bar of open quarters.',pattern:'blocks'},
+ {level:'Quarter notes',type:'q',name:'2 · Alternate each beat',hint:'PM on beats 1 and 3; OPEN on beats 2 and 4.',pattern:'alternate'},
+ {level:'Quarter notes',type:'q',name:'3 · Two on, two off',hint:'PM on beats 1–2; OPEN on beats 3–4.',pattern:'halves'},
+ {level:'Eighth notes',type:'e',name:'4 · All muted, then open',hint:'Eight muted eighths followed by eight open eighths.',pattern:'blocks'},
+ {level:'Eighth notes',type:'e',name:'5 · Alternate eighths',hint:'Switch PM and OPEN every eighth note.',pattern:'alternate'},
+ {level:'Eighth notes',type:'e',name:'6 · Two muted, two open',hint:'Switch every pair of eighth notes.',pattern:'pairs'},
+ {level:'Sixteenth notes',type:'s',name:'7 · All muted, then open',hint:'Sixteen muted sixteenths followed by sixteen open sixteenths.',pattern:'blocks'},
+ {level:'Sixteenth notes',type:'s',name:'8 · Four muted, four open',hint:'Switch articulation once per quarter-note beat.',pattern:'quarters'},
+ {level:'Sixteenth notes',type:'s',name:'9 · Two muted, two open',hint:'Switch every two sixteenth notes for fast control.',pattern:'pairs'}
+];
+function pmDrillBars(spec){
+ const count=Math.round(4/dur[spec.type]);
+ const make=(barIndex)=>Array.from({length:count},(_,i)=>{
+  let pm=false;
+  switch(spec.pattern){
+   case 'blocks':pm=barIndex===0;break;
+   case 'alternate':pm=i%2===0;break;
+   case 'halves':pm=i<count/2;break;
+   case 'pairs':pm=Math.floor(i/2)%2===0;break;
+   case 'quarters':pm=Math.floor(i/4)%2===0;break;
+  }
+  return {type:spec.type,accent:false,pm};
+ });
+ return [make(0),make(1)];
+}
+$('pmDrills').innerHTML=pmDrillSpecs.map((d,i)=>`<div class="lesson"><div><b>${d.name}</b><div class="small">${d.level} · ${d.hint}</div></div><button data-pmdrill="${i}">Practice</button></div>`).join('');
+$('pmDrills').onclick=e=>{
+ const btn=e.target.closest('button[data-pmdrill]');if(!btn)return;
+ const spec=pmDrillSpecs[Number(btn.dataset.pmdrill)];
+ const next=pmDrillBars(spec);
+ importBars(next);
+ $('signature').value='4/4';
+ $('bpm').value=Math.max(30,Math.min(220,Number($('pmPracticeBpm').value)||70));
+ $('loop').checked=true;
+ $('subMode').value=spec.type==='q'?'quarter':spec.type==='e'?'eighth':'sixteenth';
+ updateSubGrid(null,0);
+ save();render();
+ $('pmDrillStatus').textContent='Loaded '+spec.name+' at '+$('bpm').value+' BPM. Switch to Rhythm Studio and press Play. PM labels show muted notes.';
+ message('Palm-mute drill loaded: '+spec.name+'. Press Play to practice.');
+};
+const pickingDrills=[
+ {name:'10 · Quarter downstrokes',type:'q',style:'down',pmStyle:'all',hint:'Four strong downstrokes per measure. Keep your wrist relaxed.'},
+ {name:'11 · Eighth alternate picking',type:'e',style:'alternate',pmStyle:'none',hint:'Down-up on each pair of eighth notes.'},
+ {name:'12 · Eighth muted chugs',type:'e',style:'down',pmStyle:'halves',hint:'Downstroke all eighths; switch palm mute every two beats.'},
+ {name:'13 · Sixteenth alternate picking',type:'s',style:'alternate',pmStyle:'all',hint:'Muted sixteenths, strict down-up picking.'},
+ {name:'14 · Sixteenth muted/open transitions',type:'s',style:'alternate',pmStyle:'pairs',hint:'Alternate pick; switch palm mute every two sixteenths.'},
+ {name:'15 · Accented metal pulse',type:'s',style:'alternate',pmStyle:'quarters',hint:'Accented open first sixteenth of each beat; muted remaining notes.'}
+];
+const pickingDrillBox=document.createElement('div');pickingDrillBox.innerHTML='<h3>Picking & Articulation Practice</h3><p class="hint">↓ = downstroke, ↑ = upstroke. PM marks muted notes. Load a drill and use the count-in, loop, and subdivision trainer.</p>'+pickingDrills.map((d,i)=>`<div class="lesson"><div><b>${d.name}</b><div class="small">${d.hint}</div></div><button data-pickdrill="${i}">Practice</button></div>`).join('');
+$('pmDrills').after(pickingDrillBox);
+pickingDrillBox.onclick=e=>{const btn=e.target.closest('[data-pickdrill]');if(!btn)return;const spec=pickingDrills[Number(btn.dataset.pickdrill)],count=Math.round(4/dur[spec.type]);const next=[0,1].map(()=>Array.from({length:count},(_,i)=>{const pm=spec.pmStyle==='all'||spec.pmStyle==='halves'&&i<count/2||spec.pmStyle==='pairs'&&Math.floor(i/2)%2===0||spec.pmStyle==='quarters'&&i%4!==0;return {type:spec.type,accent:spec.name.startsWith('15')&&i%4===0,pm,pick:spec.style==='down'?'down':i%2?'up':'down'};}));
+ importBars(next);$('signature').value='4/4';$('bpm').value=Math.max(30,Math.min(220,Number($('pmPracticeBpm').value)||70));$('loop').checked=true;$('subMode').value=spec.type==='q'?'quarter':spec.type==='e'?'eighth':'sixteenth';updateSubGrid(null,0);save();render();$('pmDrillStatus').textContent='Loaded '+spec.name+'. Open Rhythm Studio and press Play.';message('Loaded '+spec.name+'.');};
+$('lessons').innerHTML=presets.map(([name,notes],i)=>`<div class="lesson"><div><b>${i+1}. ${name}</b><div class="small">${notes}</div></div><button data-lesson="${i}">Load exercise</button></div>`).join('');$('lessons').onclick=e=>{const i=e.target.dataset.lesson;if(i!==undefined){const next=parseTokens(presets[Number(i)][1]);importBars([next]);message('Loaded '+presets[Number(i)][0])}};
+document.addEventListener('keydown',e=>{if(['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName))return;if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();$('undo').click()}else if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='y'){e.preventDefault();$('redo').click()}else if((e.key==='Delete'||e.key==='Backspace')&&selectedNote){const {b,i}=selectedNote;checkpoint();bars[b].splice(i,1);selectedNote=null;commit()}else if(e.code==='Space'){e.preventDefault();playing?stop():play()}});
+
+// V6: all import routes produce a reviewable, editable rhythm section.
+let pendingImport=[], midiTracks=[], midiDivision=480, midiGlobalMeter=null, midiGlobalTempo=null, importMode='midi';
+const importMsg=s=>$('importStatus').textContent=s;
+function selectImportMode(mode){importMode=mode;document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));document.querySelectorAll('.importmode').forEach(b=>b.classList.toggle('hide',b.id!=='mode-'+mode))}
+document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>selectImportMode(b.dataset.mode));
+function setPending(next,label){pendingImport=next.filter(b=>b.length);if(!pendingImport.length)throw Error('No note attacks found');$('rangeStart').value=1;$('rangeCount').value=Math.min(4,pendingImport.length);importMsg(`${label}: ${pendingImport.length} measure(s) found. Review before applying.`);renderImportPreview()}
+function selectedImportBars(){const start=Math.max(0,Number($('rangeStart').value||1)-1),count=Math.max(1,Math.min(32,Number($('rangeCount').value||4)));return pendingImport.slice(start,start+count)}
+function renderImportPreview(){const arr=selectedImportBars();$('reviewBars').innerHTML='';$('acceptImport').disabled=!arr.length;$('reviewInfo').textContent=`${pendingImport.length} total measures · showing ${arr.length} measure(s). Orange borders indicate totals that differ from the current ${$('signature').value} time signature.`;const start=Math.max(0,Number($('rangeStart').value||1)-1);arr.forEach((bar,i)=>{const div=document.createElement('div');div.className='reviewBar'+(Math.abs(barTotal(bar)-sig())>.03?' warn':'');const small=document.createElement('small');small.textContent=`Measure ${start+i+1} · ${barTotal(bar).toFixed(2)} / ${sig()} beats`;const code=document.createElement('code');code.textContent=bar.map(n=>n.type).join(' ');div.append(small,code);$('reviewBars').append(div)});$('reviewTokens').value=arr.map(b=>b.map(n=>n.type).join(' ')).join(' | ')}
+$('rangeStart').onchange=renderImportPreview;$('rangeCount').onchange=renderImportPreview;$('refreshPreview').onclick=renderImportPreview;
+$('applyReview').onclick=()=>{try{const arr=$('reviewTokens').value.split('|').map(s=>s.trim().split(/\s+/).filter(Boolean).map(type=>{if(!(type in dur))throw Error('Unknown token: '+type);return {type,accent:false}}));if(!arr.length||arr.some(b=>!b.length))throw Error('Empty measure in review');const start=Math.max(0,Number($('rangeStart').value||1)-1);pendingImport.splice(start,selectedImportBars().length,...arr);$('rangeCount').value=arr.length;renderImportPreview();importMsg('Corrections applied. Review the totals, then send to Studio.')}catch(err){importMsg(err.message)}};
+$('acceptImport').onclick=()=>{const arr=selectedImportBars();if(!arr.length)return;importBars(clone(arr));message(`Imported ${arr.length} reviewed measures. Adjust tempo and loop in Rhythm Studio.`)};
+$('xmlFile').onchange=async e=>{try{const f=e.target.files[0];if(!f)return;score=fromXml(new DOMParser().parseFromString(await f.text(),'application/xml'));importMsg(`Loaded ${f.name}; choose a part and preview.`)}catch(err){importMsg('MusicXML error: '+err.message)}};
+$('extract').onclick=()=>{try{if(!score)throw Error('Choose a MusicXML file first');setPending(extractXml(score,$('part').value),'MusicXML')}catch(err){importMsg(err.message)}};
+$('openSong').onclick=()=>{const url=$('songUrl').value.trim();if(!/^https:\/\/(www\.)?songsterr\.com\//i.test(url)){importMsg('Enter a valid https://songsterr.com link');return}window.open(url,'_blank','noopener,noreferrer')};
+$('manualImport').onclick=()=>{try{const raw=$('manual').value.trim();if(!raw)throw Error('Enter rhythm tokens first');const result=raw.split('|').map(s=>s.trim().split(/\s+/).filter(Boolean).map(type=>{if(!(type in dur))throw Error('Unknown token: '+type);return {type,accent:false}}));setPending(result,'Manual rhythm')}catch(err){importMsg(err.message)}};
+['q','e','s','t','de','r','re','rs','|'].forEach(token=>{const b=document.createElement('button');b.textContent=token;b.title=token==='|'?'New measure':names[token]||token;b.onclick=()=>{$('manual').value+=($('manual').value.trim()?' ':'')+token+' ';$('manual').focus()};$('quickTokens').append(b)});
+$('rhythmImage').onchange=e=>{const f=e.target.files[0];if(!f)return;const img=$('imagePreview');if(img.dataset.url)URL.revokeObjectURL(img.dataset.url);img.dataset.url=URL.createObjectURL(f);img.src=img.dataset.url;img.style.display='block';importMsg('Screenshot loaded as a visual reference. Transcribe the visible notes manually; automatic image recognition is not included.')};
+$('imageToManual').onclick=()=>selectImportMode('manual');
+// Standard MIDI file reader: type 0/1, note-on and note-off, running status, track names.
+function parseMidi(buffer){
+ midiGlobalMeter=null;midiGlobalTempo=null;
+ const view=new DataView(buffer);let p=0;
+ function requireBytes(n){if(p+n>view.byteLength)throw Error('Truncated MIDI file')}
+ function u8(){requireBytes(1);return view.getUint8(p++)}
+ function u16(){requireBytes(2);const v=view.getUint16(p);p+=2;return v}
+ function u32(){requireBytes(4);const v=view.getUint32(p);p+=4;return v}
+ function str(n){requireBytes(n);let v='';for(let i=0;i<n;i++)v+=String.fromCharCode(u8());return v}
+ function vlq(){let n=0,b,count=0;do{if(++count>4)throw Error('Invalid MIDI variable-length value');b=u8();n=n*128+(b&127)}while(b&128);return n}
+ if(str(4)!=='MThd')throw Error('Not a standard MIDI file');const len=u32();if(len<6)throw Error('Invalid MIDI header');
+ const format=u16(),ntracks=u16(),division=u16();if(format>1)throw Error('MIDI format 2 is not supported');if(!ntracks||ntracks>256)throw Error('Invalid MIDI track count');
+ if(division&0x8000)throw Error('SMPTE-timed MIDI is not supported');if(!division)throw Error('Invalid MIDI time division');
+ requireBytes(len-6);p+=len-6;midiDivision=division;
+ const tracks=[];for(let k=0;k<ntracks;k++){
+  if(str(4)!=='MTrk')throw Error('Missing MIDI track header');const size=u32(),end=p+size;requireBytes(size);
+  let tick=0,status=0,name='Track '+(k+1),notes=[],active=new Map(),timeSignatures=[];
+  function close(ch,key){const id=ch+':'+key,queue=active.get(id);if(queue?.length){const n=queue.shift();n.endTick=Math.max(n.tick+1,tick)}}
+  while(p<end){tick+=vlq();let op=u8();if(op<128){if(status<128||status>=240)throw Error('Invalid running status');p--;op=status}else if(op<240)status=op;
+   if(op===255){const meta=u8(),size=vlq();if(p+size>end)throw Error('Truncated MIDI metadata');if(meta===3)name=str(size);else if(meta===81&&size===3){const micros=(view.getUint8(p)<<16)|(view.getUint8(p+1)<<8)|view.getUint8(p+2);if(!midiGlobalTempo&&micros>0)midiGlobalTempo=Math.round(60000000/micros);p+=size}else if(meta===88&&size>=2){const num=view.getUint8(p),den=2**view.getUint8(p+1);timeSignatures.push({tick,num,den});if(!midiGlobalMeter&&tick===0&&validSignature(num+'/'+den))midiGlobalMeter=num+'/'+den;p+=size}else p+=size;continue}
+   if(op>=248&&op<=254)continue;
+   if(op===240||op===247){const n=vlq();if(p+n>end)throw Error('Truncated MIDI SysEx');p+=n;continue}
+   const cmd=op&240,ch=op&15;
+   if(cmd===192||cmd===208){u8();continue}
+   if(cmd<128||cmd>224)throw Error('Unsupported MIDI event');
+   const key=u8(),val=u8();
+   if(cmd===144&&val>0){const n={tick,pitch:key,channel:ch,endTick:null};notes.push(n);const id=ch+':'+key;if(!active.has(id))active.set(id,[]);active.get(id).push(n)}
+   else if(cmd===128||(cmd===144&&val===0))close(ch,key);
+  }
+  if(p!==end)throw Error('MIDI track length mismatch');for(const queue of active.values())for(const n of queue)n.endTick=Math.max(n.tick+1,tick);
+  tracks.push({name,notes,timeSignatures});
+ }
+ return tracks;
+}
+function midiToBars(track,grid){
+ const notes=track.notes;if(!notes.length)throw Error('This track has no notes');
+ const quant=grid==='auto'?(()=>{let best=4,score=Infinity;for(const g of [2,3,4,6,8]){const error=notes.reduce((sum,n)=>sum+Math.abs(n.tick/midiDivision*g-Math.round(n.tick/midiDivision*g)),0);if(error<score){score=error;best=g}}return best})():Number(grid);
+ if(![2,3,4,6,8].includes(quant))throw Error('Unsupported quantization grid');
+ const barUnits=Math.round(sig()*quant);if(!barUnits)throw Error('Invalid time signature');
+ const events=notes.map(n=>({start:Math.max(0,Math.round(n.tick/midiDivision*quant)),end:Math.max(1,Math.round((n.endTick??n.tick+midiDivision/quant)/midiDivision*quant))}));
+ const starts=[...new Set(events.map(e=>e.start))].sort((a,b)=>a-b);
+ const endUnit=Math.ceil(Math.max(...events.map(e=>e.end),starts.at(-1)+1)/barUnits)*barUnits;
+ if(endUnit/barUnits>256)throw Error('Song section too long (over 256 measures). Try a shorter MIDI file.');
+ const result=[];
+ function emit(out,units,rest){let beats=units/quant;const candidates=Object.keys(dur).filter(t=>rest?t.startsWith('r'):!t.startsWith('r')).sort((a,b)=>dur[b]-dur[a]);while(beats>0.001){const choice=candidates.find(t=>dur[t]<=beats+.001);if(!choice){const smallest=candidates.at(-1);out.push({type:smallest,accent:false,sustain:beats});break}out.push({type:choice,accent:false});beats-=dur[choice]}}
+ for(let barStart=0;barStart<endUnit;barStart+=barUnits){const out=[];let cursor=barStart;
+  // A rhythm is sounding when any imported note is held. This preserves rests after note-offs.
+  // Consecutive note attacks split the sounding segment even if notes overlap (chords become one attack).
+  const boundaries=new Set([barStart,barStart+barUnits]);
+  for(const e of events){if(e.start>barStart&&e.start<barStart+barUnits)boundaries.add(e.start);if(e.end>barStart&&e.end<barStart+barUnits)boundaries.add(e.end)}
+  const sorted=[...boundaries].sort((a,b)=>a-b);
+  for(let i=0;i<sorted.length-1;i++){const from=sorted[i],to=sorted[i+1];const sounding=events.some(e=>e.start<=from&&e.end>from);emit(out,to-from,!sounding)}
+  result.push(out);
+ }
+ return result;
+}
+$('midiFile').onchange=async e=>{try{const f=e.target.files[0];if(!f)return;midiTracks=parseMidi(await f.arrayBuffer());$('midiTrack').innerHTML='';midiTracks.forEach((t,i)=>{const opt=document.createElement('option');opt.value=i;opt.textContent=`${t.name} (${t.notes.length} note attacks)`;$('midiTrack').append(opt)});const first=midiTracks.findIndex(t=>t.notes.length);if(first>=0)$('midiTrack').value=first;importMsg(`Loaded ${f.name} · ${midiTracks.length} track(s). Select the guitar track and preview.`);$('midiDetected').textContent='Detected meter: '+(midiGlobalMeter||'not found')+' · Tempo: '+(midiGlobalTempo?midiGlobalTempo+' BPM':'not found');}catch(err){importMsg('MIDI error: '+err.message)}};
+$('midiPreview').onclick=()=>{try{const track=midiTracks[Number($('midiTrack').value)];if(!track)throw Error('Choose a MIDI file first');if($('midiUseMeter').checked&&midiGlobalMeter&&$('signature').value!==midiGlobalMeter){$('signature').value=midiGlobalMeter;lastGoodSignature=midiGlobalMeter;save()}
+const quant=$('midiGrid').value;
+setPending(midiToBars(track,quant),'MIDI rhythm');
+const chosen=quant==='auto'?'automatic straight/triplet grid':quant+' subdivisions per quarter';
+$('importDiagnostics').textContent='Detected MIDI: '+(midiGlobalMeter||'meter unavailable')+' · '+(midiGlobalTempo?midiGlobalTempo+' BPM':'tempo unavailable')+' · Quantization: '+chosen+'. MIDI note attacks and sustains are simplified to one rhythm line; check rests and ties.';
+importMsg('MIDI rhythm extracted using note-on and note-off events. Chords are merged into one rhythmic attack; overlapping notes, ties, and tempo changes may require corrections. Review before accepting.')}catch(err){importMsg(err.message)}};
+
+// Move settings controls without recreating elements; existing listeners remain intact.
+(function organizeSettings(){
+ const dest=$('settingsControls');
+ ['countin','clickmode','volume','speed','step','every','silent'].forEach(id=>{
+  const el=$(id);const parent=el?.closest('label');if(parent)dest.append(parent);
+ });
+ const soundTitle=document.querySelector('#noteWave')?.closest('.row');
+ if(soundTitle)$('settingsSound').append(soundTitle);
+})();
+$('bpm').addEventListener('change',()=>{
+ const value=Math.round(Number($('bpm').value));
+ $('bpm').value=Number.isFinite(value)?Math.max(20,Math.min(400,value)):85;
+ save();
+});
+const availableThemes=new Set(['midnight','ocean','forest','ember','slate','light']);
+function applyTheme(name){
+ const chosen=availableThemes.has(name)?name:'midnight';
+ document.body.dataset.theme=chosen;
+ $('themeSelect').value=chosen;
+ try{localStorage.setItem('pulseforge-theme',chosen)}catch(e){}
+}
+let initialTheme='midnight';try{initialTheme=localStorage.getItem('pulseforge-theme')||'midnight'}catch(e){}
+applyTheme(initialTheme);
+$('themeSelect').onchange=e=>applyTheme(e.target.value);
+$('settingsHome').append($('appSettings'));
+document.querySelectorAll('.headerMenu').forEach(menu=>menu.addEventListener('toggle',()=>{
+ if(menu.open)document.querySelectorAll('.headerMenu').forEach(other=>{if(other!==menu)other.open=false});
+}));
+function shareData(){
+ return {format:'pulseforge-project',version:21,bars:clone(bars),bpm:Number($('bpm').value),signature:$('signature').value};
+}
+function encodeShare(data){
+ const bytes=new TextEncoder().encode(JSON.stringify(data));
+ let binary='';for(let i=0;i<bytes.length;i++)binary+=String.fromCharCode(bytes[i]);
+ return btoa(binary).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+}
+function decodeShare(value){
+ const b64=value.replace(/-/g,'+').replace(/_/g,'/');
+ const raw=atob(b64);
+ const bytes=Uint8Array.from(raw,c=>c.charCodeAt(0));
+ return JSON.parse(new TextDecoder().decode(bytes));
+}
+$('shareRhythm').onclick=async()=>{
+ try{
+  const data=shareData();validateProject(data);
+  const url=location.href.split('#')[0]+'#rhythm='+encodeShare(data);
+  if(url.length>12000)throw Error('Rhythm is too large for a reliable share link. Use Export project instead.');
+  if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(url);message('Share link copied! Anyone with the link can open your rhythm.');}
+  else{prompt('Copy your rhythm link:',url);message('Share link generated.');}
+ }catch(err){message('Sharing failed: '+err.message)}
+};
+function openSharedRhythm(){
+ const hash=location.hash;
+ if(!hash.startsWith('#rhythm='))return;
+ try{
+  if(hash.length>12000)throw Error('Link is too large.');
+  const p=validateProject(decodeShare(hash.slice(8)));
+  if(!confirm('Load a shared PulseForge rhythm ('+p.bars.length+' measure(s))? Your current project will be backed up.'))return;
+  applyProject(p);lastGoodSignature=p.signature;message('Shared rhythm loaded! Export a project file to keep a permanent copy.');
+ }catch(err){message('Could not open shared rhythm: '+err.message)}
+}
+window.addEventListener('hashchange',openSharedRhythm);
+$('supportCreator').onclick=()=>{
+ const supportUrl=''; // Configure an official donation link here before enabling payments.
+ if(supportUrl){window.open(supportUrl,'_blank','noopener,noreferrer');return}
+ alert('Thanks for supporting PulseForge! Donations are not enabled yet. PulseForge is free to use, and support options may be added after the public beta.');
+};
+if('serviceWorker' in navigator&&location.protocol==='https:'){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
+palette();refreshLibrary();practiceSeconds=historyData.seconds||0;updateHistory();render();openSharedRhythm();
+})();document.getElementById('startupDiagnostic').style.display='none';
+}catch(err){const el=document.getElementById('startupDiagnostic');el.style.display='block';el.textContent='PulseForge could not start: '+err.message+'. Please report this exact error.';console.error(err)}
+</script></body></html>
